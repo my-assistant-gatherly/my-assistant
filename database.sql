@@ -19,5 +19,18 @@ CREATE TABLE "user" (
 	"created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE "events" (
+    "id" SERIAL PRIMARY KEY,
+    "owner_id" INTEGER,
+    "event_title" VARCHAR (1000) NOT NULL,
+    "date" DATE,
+    "start_time" TIMESTAMP,
+	"duration" INTERVAL,
+	"description" VARCHAR (1000),
+	"is_public" BOOLEAN,
+	"total_likes" INTEGER,
+	"created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
 ---hi. testing.
