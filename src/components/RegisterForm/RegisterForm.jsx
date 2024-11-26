@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { TextField, Button, Typography, Box } from '@mui/material';
+import './RegisterForm.css';
 
 function RegisterForm() {
   const [username, setUsername] = useState('');
@@ -25,92 +27,79 @@ function RegisterForm() {
         zipcode: zipcode,
       },
     });
-  }; // end registerUser
+  };
 
   return (
-    <form className="formPanel" onSubmit={registerUser}>
-      <h2>Register User</h2>
+    <Box component="form" className="formPanel" onSubmit={registerUser} noValidate autoComplete="off">
+      <Typography variant="h4" component="h2" gutterBottom className="register-form-title">
+        Join <span>My-Assistant</span>
+      </Typography>
       {errors.registrationMessage && (
-        <h3 className="alert" role="alert">
+        <Typography variant="body2" color="error" role="alert">
           {errors.registrationMessage}
-        </h3>
+        </Typography>
       )}
-      <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={username}
-            required
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={password}
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="fullname ">
-          Name:
-          <input
-            type="text"
-            name="fullname"
-            value={fullname}
-            required
-            onChange={(event) => setFullname(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="user_title">
-          Title:
-          <input
-            type="text"
-            name="user_title"
-            value={user_title}
-            required
-            onChange={(event) => setUser_title(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="skill">
-          Skill:
-          <input
-            type="text"
-            name="skill"
-            value={skill}
-            required
-            onChange={(event) => setSkill(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="zipcode">
-          Zipcode:
-          <input
-            type="number"
-            name="zipcode"
-            value={zipcode}
-            required
-            onChange={(event) => setZipcode(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
-      </div>
-    </form>
+      <TextField
+        fullWidth
+        autoFocus
+        margin="normal"
+        label="Username"
+        variant="outlined"
+        value={username}
+        onChange={(event) => setUsername(event.target.value)}
+        required
+      />
+      <TextField
+        fullWidth
+        margin="normal"
+        label="Password"
+        type="password"
+        variant="outlined"
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+        required
+      />
+      <TextField
+        fullWidth
+        margin="normal"
+        label="Full Name"
+        variant="outlined"
+        value={fullname}
+        onChange={(event) => setFullname(event.target.value)}
+        required
+      />
+      <TextField
+        fullWidth
+        margin="normal"
+        label="Title"
+        variant="outlined"
+        value={user_title}
+        onChange={(event) => setUser_title(event.target.value)}
+        required
+      />
+      <TextField
+        fullWidth
+        margin="normal"
+        label="Skill"
+        variant="outlined"
+        value={skill}
+        onChange={(event) => setSkill(event.target.value)}
+        required
+      />
+      <TextField
+        fullWidth
+        margin="normal"
+        label="Zipcode"
+        type="number"
+        variant="outlined"
+        value={zipcode}
+        onChange={(event) => setZipcode(event.target.value)}
+        required
+      />
+      <Button className="btn" type="submit" variant="contained" color="primary">
+          Register
+      </Button>
+    </Box>
   );
 }
 

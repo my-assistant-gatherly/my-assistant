@@ -1,0 +1,12 @@
+.registration-page {  
+    margin-top: 65px;
+    background-image: linear-gradient(to bottom, #008346, #000783);
+    color: #fff;
+}
+.registration-page-login-button {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.register-form-title {
+    color:black
+}
