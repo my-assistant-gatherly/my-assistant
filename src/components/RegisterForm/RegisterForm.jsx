@@ -4,6 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 function RegisterForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [fullname, setFullname] = useState('');
+  const [user_title, setUser_title] = useState('');
+  const [skill, setSkill] = useState('');
+  const [zipcode, setZipcode] = useState('');
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
@@ -15,6 +19,10 @@ function RegisterForm() {
       payload: {
         username: username,
         password: password,
+        fullname: fullname,
+        user_title: user_title,
+        skill: skill,
+        zipcode: zipcode,
       },
     });
   }; // end registerUser
@@ -48,6 +56,54 @@ function RegisterForm() {
             value={password}
             required
             onChange={(event) => setPassword(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="fullname ">
+          Name:
+          <input
+            type="text"
+            name="fullname"
+            value={fullname}
+            required
+            onChange={(event) => setFullname(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="user_title">
+          Title:
+          <input
+            type="text"
+            name="user_title"
+            value={user_title}
+            required
+            onChange={(event) => setUser_title(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="skill">
+          Skill:
+          <input
+            type="text"
+            name="skill"
+            value={skill}
+            required
+            onChange={(event) => setSkill(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="zipcode">
+          Zipcode:
+          <input
+            type="number"
+            name="zipcode"
+            value={zipcode}
+            required
+            onChange={(event) => setZipcode(event.target.value)}
           />
         </label>
       </div>
