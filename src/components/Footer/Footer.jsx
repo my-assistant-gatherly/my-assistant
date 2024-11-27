@@ -7,7 +7,8 @@ import './Footer.css';
 // or even care what the redux state is, so it doesn't need 'connect()'
 
 function Footer() {
-  return <footer>&copy; Prime Digital Academy</footer>;
+  const year = new Date().getFullYear();
+  return <footer>&copy; My Assistant {year}</footer>;
 }
 
 export default Footer;

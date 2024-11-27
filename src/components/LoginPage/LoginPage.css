@@ -1,0 +1,24 @@
+p {
+    text-align: center;
+}
+.login-page {
+  margin-top: 0px;
+  background-image: linear-gradient(to bottom, #008346, #000783);
+  color: #fff;
+  border-radius: 10px;
+  background-position: center;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+
+}
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: blue;
+}

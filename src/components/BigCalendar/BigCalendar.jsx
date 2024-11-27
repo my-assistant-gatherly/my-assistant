@@ -34,8 +34,8 @@ export default function BigCalendar() {
       localizer={localizer}
       defaultDate={new Date()}
       // You can change the default view, based on which of these options you choose:
-      defaultView="agenda"
-      // defaultView="month"
+      // defaultView="agenda"
+      defaultView="month"
       // defaultView="week"
       // defaultView="work_week"
       // defaultView="day"
