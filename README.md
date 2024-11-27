@@ -104,7 +104,7 @@ This code is also heavily commented. We recommend reading through the comments, 
   - AboutPage/AboutPage
   - InfoPage/InfoPage
   - UserPage/UserPage
-  - LoginPage/LoginPage
+  - InfoPage/InfoPage // Changed to CreateEventsPage
   - RegisterPage/RegisterPage
   - LogOutButton/LogOutButton
   - ProtectedRoute/ProtectedRoute

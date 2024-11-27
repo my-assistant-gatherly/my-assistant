@@ -14,10 +14,13 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
-import InfoPage from '../InfoPage/InfoPage';
+import CreateEventsPage from '../CreateEvents/CreateEvents';
+import ViewEvents from '../ViewEvents/ViewEvents';
+import MyEvents from '../MyEvents/MyEvents';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import BigCalendar from '../BigCalendar/BigCalendar';
 
 import './App.css';
 
@@ -60,11 +63,37 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
+            // logged in shows CreateEventsPage else shows LoginPage
             exact
-            path="/info"
+            path="/create-events"
           >
-            <InfoPage />
+            <CreateEventsPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows ViewEventsPage else shows LoginPage
+            exact
+            path="/view-events"
+          >
+            <ViewEvents />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows MyEventsPage else shows LoginPage
+            exact
+            path="/my-events"
+          >
+            <MyEvents />
+          </ProtectedRoute>
+
+
+
+          <ProtectedRoute
+            // logged in shows CreateEventsPage else shows LoginPage
+            exact
+            path="/calendar"
+          >
+            <BigCalendar />
           </ProtectedRoute>
 
           <Route
