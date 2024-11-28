@@ -1,10 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-// This is one of our simplest components
-// It doesn't have local state
-// It doesn't dispatch any redux actions or display any part of redux state
-// or even care what the redux state is
 
 function CreateEventsPage() {
 
@@ -20,25 +17,36 @@ function CreateEventsPage() {
     isPrivate: true,
   });
 
+  const history = useHistory();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
   };
 
-  const handleToggle = (isPrivate) => {
-    setEventData({ ...eventData, isPrivate });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Event Data:", eventData);
-    // You can send `formData` to your backend here
+    alert("Your Event Created Successfully 🎉")
+    setEventData({
+      title: "",
+      date: "",
+      time: "",
+      duration: "",
+      location: "",
+      description: "",
+      notes: "",
+      tasks: "",
+      isPrivate: true,
+    });
+
+    history.push('/my-events')
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="container">
-        <p>Create New Event</p>
+    <form className="CE_form" onSubmit={handleSubmit}>
+      <div className="CE_container">
+        <p className="CE_p">Create New Event</p>
 
         <input
           type="text"
@@ -50,7 +58,7 @@ function CreateEventsPage() {
         />
 
         <input
-          type="text"
+          type="date"
           name="date"
           placeholder="Event Date"
           value={eventData.date}
@@ -59,7 +67,7 @@ function CreateEventsPage() {
         />
 
         <input
-          type="text"
+          type="time"
           name="time"
           placeholder="Event Time"
           value={eventData.time}
@@ -68,11 +76,13 @@ function CreateEventsPage() {
         />
 
         <input
-          type="text"
+          type="number"
           name="duration"
-          placeholder="Event Duration"
+          placeholder="Event Duration (Hours)"
           value={eventData.duration}
           onChange={handleChange}
+          step="0.5"
+          min="0"
           required
         />
 
@@ -110,15 +120,26 @@ function CreateEventsPage() {
 
         <br />
 
-        <button
-          type="button"
-          onClick={() => handleToggle(true)}
-        > Public</button>
+        <div>
+          <input
+            type="radio"
+            name="isPrivate"
+            value="true"
+            checked={eventData.isPrivate === true}
+            onChange={() => setEventData({ ...eventData, isPrivate: true })}
+          />
+          <label>Private</label>
 
-        <button
-          type="button"
-          onClick={() => handleToggle(false)}
-        > Private</button>
+          <input
+            type="radio"
+            name="isPrivate"
+            value="false"
+            checked={eventData.isPrivate === false}
+            onChange={() => setEventData({ ...eventData, isPrivate: false })}
+          />
+          <label>Public</label>
+        </div>
+
 
         <br />
 
