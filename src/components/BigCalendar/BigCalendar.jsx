@@ -13,7 +13,7 @@ const localizer = momentLocalizer(moment)
 
 export default function BigCalendar() {
 
-  // I need stome stuff to put on my calendar.
+  // I need some stuff to put on my calendar.
   // Details on what properties an event object supports: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/props--events
   let myEventsList = [
     {
