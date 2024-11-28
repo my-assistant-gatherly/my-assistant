@@ -3,6 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color:blue;
   position: fixed;
   top: 0;
   left: 0;
@@ -11,8 +12,8 @@
 
   width: 100%;
   margin: 0 0 30px;
-  background-color: #00acb0;
   overflow: hidden;
+  color: white;
 }
 
 .nav a {
@@ -30,7 +31,6 @@
 .navLink {
   display: inline-block;
   color: #f2f2f2;
-  background-color: #00acb0;
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;
@@ -38,12 +38,34 @@
 
   /* these last two make the logout button in
   the nav bar look like another link */
-  border: none;
+  /* border: none;
   cursor: pointer;
-  outline: 0;
+  outline: 0; */
 }
 
 .navLink:hover {
-  color: #008346;
+  background-color:rgb(28, 40, 208);
+  border-radius: 10px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+/* Added this specific style for the LogOutButton */
+button.navLink {
+  background-color: transparent;
+  color: #f2f2f2;
+  padding: 24px 10px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+button.navLink:hover {
+  background-color: rgb(28, 40, 208);
+  border-radius: 10px;
+  padding: 10px;
   transition: background-color 0.3s ease;
 }
