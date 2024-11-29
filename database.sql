@@ -21,16 +21,17 @@ CREATE TABLE "user" (
 );
 CREATE TABLE "events" (
     "id" SERIAL PRIMARY KEY,
-    "owner_id" INTEGER,
-    "event_title" VARCHAR (1000) NOT NULL,
-    "date" DATE,
-    "start_time" TIMESTAMP,
-	"duration" INTERVAL,
-	"description" VARCHAR (1000),
-	"is_public" BOOLEAN,
-	"total_likes" INTEGER,
-	"created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-	"updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    "owner_id" INT REFERENCES "user" (id), 
+    "event_title" VARCHAR (255) NOT NULL, 
+    "date" DATE NOT NULL,                 
+    "start_time" TIME NOT NULL,           
+    "duration" NUMERIC (5, 2),
+    "location" VARCHAR (1000),                   
+    "description" VARCHAR (1000),
+    "is_public" BOOLEAN DEFAULT FALSE,    
+    "total_likes" INTEGER DEFAULT 0,      
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE "tasks_events" (
 	"id" SERIAL PRIMARY KEY,
