@@ -24,7 +24,7 @@ CREATE TABLE "events" (
     "owner_id" INTEGER,
     "event_title" VARCHAR (1000) NOT NULL,
     "date" DATE,
-    "start_time" TIMESTAMP,
+    "start_time" TIME,
 	"duration" INTERVAL,
 	"description" VARCHAR (1000),
 	"is_public" BOOLEAN,
