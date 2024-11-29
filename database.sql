@@ -36,8 +36,8 @@ CREATE TABLE "user" (
 
 CREATE TABLE "events" (
     "id" SERIAL PRIMARY KEY,
-    "owner_id" INTEGERINT REFERENCES "user" (id),
-    "event_title" VARCHAR (255) NOT NUL,
+    "owner_id" INTEGER INT REFERENCES "user" (id),
+    "event_title" VARCHAR (255) NOT NULL,
     "start_date" DATE NOT NULL,
     "end_date" DATE NOT NULL,
     "start_time" TIME NOT NULL,
