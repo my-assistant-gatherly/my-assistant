@@ -1,46 +1,84 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
+import axios from 'axios';
 
 function CreateEventsPage() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const userId = useSelector(state => state.user.id);
 
   const [eventData, setEventData] = useState({
-    title: "",
-    date: "",
-    time: "",
-    duration: "",
-    location: "",
-    description: "",
-    notes: "",
-    tasks: "",
+    title: '',
+    date: '',
+    time: '',
+    duration: '',
+    location: '',
+    description: '',
     isPrivate: true,
+    notes: '',
+    tasks: '',
   });
-
-  const history = useHistory();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Event Data:", eventData);
-    alert("Your Event Created Successfully 🎉")
-    setEventData({
-      title: "",
-      date: "",
-      time: "",
-      duration: "",
-      location: "",
-      description: "",
-      notes: "",
-      tasks: "",
-      isPrivate: true,
-    });
+    const { title, date, time, duration, location, description, isPrivate, notes, tasks } = eventData;
 
-    history.push('/my-events')
+    if (!title || !date || !time || !location) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    const durationValue = parseFloat(duration);
+    if (isNaN(durationValue) || durationValue <= 0) {
+      alert('Please enter a valid duration');
+      return;
+    }
+
+    dispatch({ type: 'SET_LOADING', payload: true });
+
+    try {
+      const response = await axios.post('/api/events', {
+        user_id: userId,
+        event_title: title,
+        date,
+        start_time: `${time}:00`,
+        location,
+        duration: durationValue,
+        description,
+        is_public: !isPrivate,
+        notes: notes || '',
+        tasks: tasks || '',
+      });
+
+      dispatch({ type: 'ADD_EVENT', payload: response.data });
+      alert('Event Created Successfully 🎉');
+
+      setEventData({
+        title: '',
+        date: '',
+        time: '',
+        location: '',
+        duration: '',
+        description: '',
+        isPrivate: true,
+        notes: '',
+        tasks: '',
+      });
+
+      history.push('/my-events');
+    } catch (error) {
+      console.error('Error creating event:', error);
+      alert('Failed to create event. Please try again.');
+      dispatch({ type: 'SET_ERROR', payload: 'Failed to create event.' });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
   };
 
   return (
@@ -124,7 +162,7 @@ function CreateEventsPage() {
           <input
             type="radio"
             name="isPrivate"
-            value="true"
+            value={true}
             checked={eventData.isPrivate === true}
             onChange={() => setEventData({ ...eventData, isPrivate: true })}
           />
@@ -133,13 +171,12 @@ function CreateEventsPage() {
           <input
             type="radio"
             name="isPrivate"
-            value="false"
+            value={false}
             checked={eventData.isPrivate === false}
             onChange={() => setEventData({ ...eventData, isPrivate: false })}
           />
           <label>Public</label>
         </div>
-
 
         <br />
 
