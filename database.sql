@@ -21,7 +21,7 @@ CREATE TABLE "user" (
 );
 CREATE TABLE "events" (
     "id" SERIAL PRIMARY KEY,
-    "owner_id" INTEGER,
+    "owner_id" INT REFERENCES "user" (user_id),
     "event_title" VARCHAR (1000) NOT NULL,
     "date" DATE,
     "start_time" TIME,
