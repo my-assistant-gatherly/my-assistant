@@ -61,6 +61,9 @@ function Nav() {
               <Link className="navLink" to="/user">
                 Home
               </Link>
+              <Link className="navLink" to="/user-profile">
+                Profile
+                </Link>
 
               <Link className="navLink" to="/calendar">
                 Calendar
