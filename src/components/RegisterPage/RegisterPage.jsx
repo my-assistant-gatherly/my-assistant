@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useHistory } from 'react-router-dom';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import './RegistrationPage.css';
@@ -9,8 +8,6 @@ function RegisterPage() {
 
   return (
     <div className="registration-page">
-      {/* TODO: Add logo */}
-      {/* <img src={logo} alt="logo" /> */}
       <RegisterForm />
 
       <center>

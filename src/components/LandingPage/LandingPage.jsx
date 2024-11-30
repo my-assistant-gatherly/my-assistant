@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
 
-// CUSTOM COMPONENTS
-import LoginPage from '../LoginPage/LoginPage';
-
 function LandingPage() {
-  const [heading, setHeading] = useState('Welcome');
   const history = useHistory();
 
-  const onLogin = (event) => {
-    history.push('/login');
-  };
-
   return (
-    <div className="container">
+    <div className="landing-container">
+      {/* Logo at the top */}
+      <img
+        src="/Images/minister___s_assistant.jpg"
+        alt="Minister's Assistant Logo"
+        className="landing-logo"
+      />
 
-      <div className="flex">
-       {/* TODO: Add logo  */}
-       {/* TODO: Just a placeholder for now */}
-       <img src="./public/images/AI-Gen.png" alt="logo" />
-        <div className="flex-col">
-         <LoginPage />
-        </div>
+      {/* Title below the logo */}
+      <h1 className="landing-title">My Minister's Assistant</h1>
+
+      {/* Buttons section */}
+      <div className="landing-buttons">
+        <button
+          className="btn"
+          onClick={() => history.push('/login')}
+        >
+          Login
+        </button>
+        <button
+          className="btn"
+          onClick={() => history.push('/registration')}
+        >
+          Register
+        </button>
       </div>
     </div>
   );

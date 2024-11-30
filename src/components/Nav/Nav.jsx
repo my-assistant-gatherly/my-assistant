@@ -14,56 +14,57 @@ function Nav() {
 
   return (
     <div className="nav">
-      <Link to="/home">
-        <h2 className="nav-title">My Assistant</h2>
-      </Link>
-      <div>
-        {/* If no user is logged in, show these links */}
-        {!user.id && (
-          <Link className="navLink" to="/login">
-            Login / Register
-          </Link>
-        )}
+      {/* Logo and Title */}
+      <div className="nav-logo-container">
+        <Link to="/home">
+          <img
+            src="/Images/minister___s_assistant.jpg"
+            alt="My Assistant Logo"
+            className="nav-logo"
+          />
+        </Link>
+        <Link to="/home">
+          <h2 className="nav-title">My Assistant</h2>
+        </Link>
+      </div>
 
-        {/* If a user is logged in, show these links */}
+      {/* Links aligned to the right */}
+      <div className="nav-links-container">
+        <Link className="navLink" to="/home">
+          Home
+        </Link>
+        <Link className="navLink" to="/calendar">
+          Calendar
+        </Link>
         {user.id && (
-          <>
-            <Link className="navLink" to="/user">
-              Home
-            </Link>
-
-            <Link className="navLink" to="/calendar">
-              Calendar
-            </Link>
-
-            {/* Dropdown for Events */}
-            <span
-              className="navLink dropdown-trigger"
+          <div className="dropdown">
+            <button
+              className="dropdown-trigger navLink"
               onClick={toggleDropDown}
             >
-              Events
-            </span>
+              Events ▼
+            </button>
             {isDropdownOpen && (
               <div className="dropdown-menu">
-                <Link className="navLink dropdown-item" to="/my-events">
+                <Link className="dropdown-item" to="/my-events">
                   My Events
                 </Link>
-                <Link className="navLink dropdown-item" to="/view-events">
+                <Link className="dropdown-item" to="/view-events">
                   View Events
                 </Link>
-                <Link className="navLink dropdown-item" to="/create-events">
+                <Link className="dropdown-item" to="/create-events">
                   Create Events
                 </Link>
               </div>
             )}
-
-            <LogOutButton className="navLink" />
-          </>
+          </div>
         )}
-
         <Link className="navLink" to="/about">
           About
         </Link>
+        {user.id && (
+          <LogOutButton className="navLink logout-button" />
+        )}
       </div>
     </div>
   );

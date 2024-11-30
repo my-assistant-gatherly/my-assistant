@@ -36,113 +36,59 @@ function App() {
   return (
     <Router>
       <div>
-        <Nav />
+        {/* Conditionally render the Nav component */}
+        {user.id && <Nav />}
+
         <Switch>
-          {/* Visiting localhost:5173 will redirect to localhost:5173/home */}
+          {/* Redirect root path to /home */}
           <Redirect exact from="/" to="/home" />
 
-          {/* Visiting localhost:5173/about will show the about page. */}
-          <Route
-            // shows AboutPage at all times (logged in or not)
-            exact
-            path="/about"
-          >
+          {/* Public route for AboutPage */}
+          <Route exact path="/about">
             <AboutPage />
           </Route>
 
-          {/* For protected routes, the view could show one of several things on the same route.
-            Visiting localhost:5173/user will show the UserPage if the user is logged in.
-            If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
-            Even though it seems like they are different pages, the user is always on localhost:5173/user */}
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/user"
-          >
+          {/* Protected Routes */}
+          <ProtectedRoute exact path="/user">
             <UserPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows CreateEventsPage else shows LoginPage
-            exact
-            path="/create-events"
-          >
+          <ProtectedRoute exact path="/create-events">
             <CreateEventsPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows ViewEventsPage else shows LoginPage
-            exact
-            path="/view-events"
-          >
+          <ProtectedRoute exact path="/view-events">
             <ViewEvents />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows MyEventsPage else shows LoginPage
-            exact
-            path="/my-events"
-          >
+          <ProtectedRoute exact path="/my-events">
             <MyEvents />
           </ProtectedRoute>
 
-
-
-          <ProtectedRoute
-            // logged in shows CreateEventsPage else shows LoginPage
-            exact
-            path="/calendar"
-          >
+          <ProtectedRoute exact path="/calendar">
             <BigCalendar />
           </ProtectedRoute>
 
-          <Route
-            exact
-            path="/login"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the login page
-              <LoginPage />
-            }
+          {/* Public Routes */}
+          <Route exact path="/login">
+            {user.id ? <Redirect to="/user" /> : <LoginPage />}
           </Route>
 
-          <Route
-            exact
-            path="/registration"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the registration page
-              <RegisterPage />
-            }
+          <Route exact path="/registration">
+            {user.id ? <Redirect to="/user" /> : <RegisterPage />}
           </Route>
 
-          <Route
-            exact
-            path="/home"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the Landing page
-              <LandingPage />
-            }
+          <Route exact path="/home">
+            {user.id ? <Redirect to="/user" /> : <LandingPage />}
           </Route>
 
-          {/* If none of the other routes matched, we will show a 404. */}
+          {/* 404 Page */}
           <Route>
             <h1>404</h1>
           </Route>
         </Switch>
+
+        {/* Footer */}
         <Footer />
       </div>
     </Router>

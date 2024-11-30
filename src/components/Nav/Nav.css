@@ -1,5 +1,4 @@
 .nav {
-  /* flex box layout */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8,42 +7,101 @@
   left: 0;
   right: 0;
   z-index: 1000;
-
   width: 100%;
-  margin: 0 0 30px;
-  background-color: #00acb0;
-  overflow: hidden;
+  background-color: #8917ac;
+  padding: 10px 20px;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 50px;
 }
 
-.nav a {
-  text-decoration: none;
+.nav-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 .nav-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #f2f2f2;
-  padding-left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
   margin: 0;
 }
 
-.navLink {
-  display: inline-block;
-  color: #f2f2f2;
-  background-color: #00acb0;
-  text-align: center;
-  padding: 24px 10px;
-  text-decoration: none;
-  font-size: 15px;
+.nav-links-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-  /* these last two make the logout button in
-  the nav bar look like another link */
-  border: none;
+.navLink {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 5px 10px;
   cursor: pointer;
-  outline: 0;
 }
 
 .navLink:hover {
-  color: #008346;
-  transition: background-color 0.3s ease;
+  color: #d8b4e2;
+}
+
+/* Dropdown Menu */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-trigger {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 40px; 
+  left: 0;
+  background-color: white;
+  border: 1px solid #d8b4e2;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+  min-width: 150px;
+  padding: 5px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item {
+  padding: 10px 15px;
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background-color: #f3e6f7;
+  color: #333;
+}
+
+.navLink.logout-button {
+  color: white;
+  background-color: #d9534f;
+  padding: 6px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.navLink.logout-button:hover {
+  background-color: #c9302c;
 }
