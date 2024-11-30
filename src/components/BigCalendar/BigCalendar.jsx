@@ -19,30 +19,16 @@ export default function BigCalendar() {
   const dispatch = useDispatch();
   const events = useSelector(store => store.eventsReducer);
 
-    console.log('what are the events in the reducer', events);
+  // console.log('what are the events in the reducer', events);
 
    // console.log('what the start time looks like', events.description);
 
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENTS'});
-
-       // console.log('dispatch',  dispatch({ type: 'FETCH_EVENTS'}))
     }, []);
 
-  // I need some stuff to put on my calendar.
-  // Details on what properties an event object supports: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/props--events
-  // let myEventsList = [
-  //   {
-  //     start: moment().toDate(),
-  //     end: moment()
-  //       .add(1, "days")
-  //       .toDate(),
-  //     title: "blank"
-  //   }
-  // ];
-
-
-  const test = events.map(event => ({
+ // this will go into the events property
+  const eventsList = events.map(event => ({
     id: event.id,
     title: event.event_title,
     start: moment(event.start_date).add(event.start_time, 'hours').toDate(),
@@ -51,20 +37,12 @@ export default function BigCalendar() {
     
   }));
 
-  console.log('test function for events property', test);
-  //console.log('moment', moment(event.date).toDate());
-
-
 
 //console.log('testing formatDate',formatDate(events.start_time));
 
   return (
 
-    // Anywhere I want a calendar, I use the <Calendar> component.
-    // I can pass it props to customize it.
-    // Full list of props and what they do: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/props-full-prop-list--page
    <>
-   
    <br/>
    <br/>
    <br/>
@@ -75,12 +53,12 @@ export default function BigCalendar() {
       localizer={localizer}
       // You can change the default view, based on which of these options you choose:
       // defaultView="agenda"
-      defaultDate={new Date(2024, 11, 11)}
+      defaultDate={new Date(2024, 11, 11)} // default to december. if you want current time, do new Data()
       defaultView="month"
       //defaultView="week"
-      // defaultView="work_week"
-      // defaultView="day"
-      events={test}
+      //defaultView="work_week"
+      //defaultView="day"
+      events={eventsList}
       style={{ height: "90vh"}}
       // eventPropGetter={(event) => ({
       //   style: {
@@ -93,13 +71,6 @@ export default function BigCalendar() {
       //   }
       // })}
     />
-
-
-{/* {events.map((events)=>
-<li key={events.id}>
-{events.event_title} {events.start_time}
-</li>
-)} */}
 
 </>
   );
