@@ -35,7 +35,7 @@ export default function MyEvents() {
   ];
 
   const [myEventsData, setMyEventsData] = useState([]);
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
   const history = useHistory();
   const userId = useSelector(state => state.user.id);
 
@@ -69,7 +69,7 @@ export default function MyEvents() {
 
   return (
     <div className="container">
-      <Paper sx={{ height: 600, width: '85%' }}>
+      <Paper sx={{ height: 670, width: '85%' }}>
         <>
           <div>
             <h1 >My Events 📆</h1>
