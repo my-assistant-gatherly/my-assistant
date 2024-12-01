@@ -90,8 +90,8 @@ function CreateEventsPage() {
   return (
     <form className="CE_form" onSubmit={handleSubmit}>
       <div className="CE_container">
-        <br />
-        <p>Create New Event</p>
+        <h1 className="CE_p">Create New Event 📅</h1>
+
         Event Title
         <input
           type="text"

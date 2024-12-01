@@ -30,6 +30,8 @@ export default function BigCalendar() {
     // Anywhere I want a calendar, I use the <Calendar> component.
     // I can pass it props to customize it.
     // Full list of props and what they do: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/props-full-prop-list--page
+   <form>
+   <br />
     <Calendar
       localizer={localizer}
       defaultDate={new Date()}
@@ -42,6 +44,7 @@ export default function BigCalendar() {
       events={myEventsList}
       style={{ height: "100vh" }}
     />
+    </form>
   );
 
 }
