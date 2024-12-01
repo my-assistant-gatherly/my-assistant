@@ -67,5 +67,16 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/:user_id', async (req, res) => {
+    try {
+        const userId = req.params.user_id;
+        const query = 'SELECT * FROM "events" WHERE "owner_id" = $1;';
+        const result = await pool.query(query, [userId]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error in GET /:user_id:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 module.exports = router;
