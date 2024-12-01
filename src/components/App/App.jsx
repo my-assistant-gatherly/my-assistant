@@ -14,6 +14,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
+import UserProfile from '../UserProfile/UserProfile';
 import CreateEventsPage from '../CreateEvents/CreateEvents';
 import ViewEvents from '../ViewEvents/ViewEvents';
 import MyEvents from '../MyEvents/MyEvents';
@@ -85,6 +86,14 @@ function App() {
           >
             <MyEvents />
           </ProtectedRoute>
+
+          <ProtectedRoute
+       // logged in shows UserProfile else shows LoginPage
+        exact
+         path="/user-profile"
+>
+  <     UserProfile />
+      </ProtectedRoute>
 
 
 

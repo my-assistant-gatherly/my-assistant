@@ -10,8 +10,10 @@ function CreateEventsPage() {
 
   const [eventData, setEventData] = useState({
     title: '',
-    date: '',
-    time: '',
+    start_date: '',
+    end_date: '',
+    start_time: '',
+    end_time: '',
     duration: '',
     location: '',
     description: '',
@@ -27,18 +29,18 @@ function CreateEventsPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { title, date, time, duration, location, description, isPrivate, notes, tasks } = eventData;
+    const { title, start_date, end_date, start_time, end_time, duration, location, description, isPrivate, notes, tasks } = eventData;
 
-    if (!title || !date || !time || !location) {
+    if (!title || !start_date || !end_date || !start_time || !end_time || !location) {
       alert('Please fill in all required fields.');
       return;
     }
 
-    const durationValue = parseFloat(duration);
-    if (isNaN(durationValue) || durationValue <= 0) {
-      alert('Please enter a valid duration');
-      return;
-    }
+    // const durationValue = parseFloat(duration);
+    // if (isNaN(durationValue) || durationValue <= 0) {
+    //   alert('Please enter a valid duration');
+    //   return;
+    // }
 
     dispatch({ type: 'SET_LOADING', payload: true });
 
@@ -46,10 +48,12 @@ function CreateEventsPage() {
       const response = await axios.post('/api/events', {
         user_id: userId,
         event_title: title,
-        date,
-        start_time: `${time}:00`,
+        start_date,
+        end_date,
+        start_time: `${start_time}:00`,
+        end_time,
         location,
-        duration: durationValue,
+        duration, //durationValue
         description,
         is_public: !isPrivate,
         notes: notes || '',
@@ -61,8 +65,10 @@ function CreateEventsPage() {
 
       setEventData({
         title: '',
-        date: '',
-        time: '',
+        start_date: '',
+        end_date: '',
+        start_time: '',
+        end_time: '',
         location: '',
         duration: '',
         description: '',
@@ -86,6 +92,7 @@ function CreateEventsPage() {
       <div className="CE_container">
         <h1 className="CE_p">Create New Event 📅</h1>
 
+        Event Title
         <input
           type="text"
           name="title"
@@ -94,36 +101,55 @@ function CreateEventsPage() {
           onChange={handleChange}
           required
         />
-
+        Start Date
         <input
           type="date"
-          name="date"
+          name="start_date"
           placeholder="Event Date"
-          value={eventData.date}
+          value={eventData.start_date}
           onChange={handleChange}
           required
         />
-
+        End Date
+        <input
+          type="date"
+          name="end_date"
+          placeholder="Event Date"
+          value={eventData.end_date}
+          onChange={handleChange}
+          required
+        />
+        Start Time
         <input
           type="time"
-          name="time"
+          name="start_time"
           placeholder="Event Time"
-          value={eventData.time}
+          value={eventData.start_time}
+          onChange={handleChange}
+          required
+        />
+        End Time
+        <input
+          type="time"
+          name="end_time"
+          placeholder="Event Time"
+          value={eventData.end_time}
           onChange={handleChange}
           required
         />
 
+        Duration
         <input
           type="number"
           name="duration"
-          placeholder="Event Duration (Hours)"
+          placeholder="Event Duration in Hours (optional)"
           value={eventData.duration}
           onChange={handleChange}
           step="0.5"
           min="0"
-          required
         />
 
+        Location
         <input
           type="text"
           name="location"

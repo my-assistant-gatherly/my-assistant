@@ -4,27 +4,29 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    const { user_id, event_title, date, start_time, location, duration, description, is_public, notes, tasks } = req.body;
+    const { user_id, event_title, start_date, end_date, start_time, end_time, duration, location, description, is_public, notes, tasks } = req.body;
 
-    if (!user_id || !event_title || !date || !start_time || !location || !duration) {
+    if (!user_id || !event_title || !start_date || !start_time || !location) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
     try {
         const query = `
             INSERT INTO "events" 
-            ("owner_id", "event_title", "date", "start_time", "location", "duration", "description", "is_public", "total_likes")
+            ("owner_id", "event_title", "start_date", "end_date", "start_time", "end_time", "duration", "location", "description", "is_public", "total_likes")
             VALUES 
-            ($1, $2, $3, $4, $5, $6, $7, $8, DEFAULT)
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, DEFAULT)
             RETURNING id;
         `;
         const values = [
             user_id,
             event_title,
-            date,
+            start_date,
+            end_date,
             start_time,
-            location,
+            end_time,
             duration,
+            location,
             description,
             is_public ?? false, // Default to false if not provided
         ];
