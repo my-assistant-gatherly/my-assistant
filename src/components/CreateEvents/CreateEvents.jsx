@@ -36,12 +36,6 @@ function CreateEventsPage() {
       return;
     }
 
-    // const durationValue = parseFloat(duration);
-    // if (isNaN(durationValue) || durationValue <= 0) {
-    //   alert('Please enter a valid duration');
-    //   return;
-    // }
-
     dispatch({ type: 'SET_LOADING', payload: true });
 
     try {
@@ -53,14 +47,14 @@ function CreateEventsPage() {
         start_time: `${start_time}:00`,
         end_time,
         location,
-        duration, //durationValue
+        duration: duration || null,
         description,
         is_public: !isPrivate,
         notes: notes || '',
         tasks: tasks || '',
       });
 
-      dispatch({ type: 'ADD_EVENT', payload: response.data });
+      dispatch({ type: 'SET_EVENT', payload: response.data });
       alert('Event Created Successfully 🎉');
 
       setEventData({

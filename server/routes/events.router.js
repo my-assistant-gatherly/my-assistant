@@ -67,5 +67,35 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/:user_id', async (req, res) => {
+    try {
+        const userId = req.params.user_id;
+        const query = 'SELECT * FROM "events" WHERE "owner_id" = $1;';
+        const result = await pool.query(query, [userId]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error in GET /:user_id:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    const eventId = req.params.id;
+    
+    try {
+      const query = 'DELETE FROM "events" WHERE "id" = $1 RETURNING *';
+      const result = await pool.query(query, [eventId]);
+  
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: 'Event not found' });
+      }
+  
+      res.status(200).json({ message: 'Event deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      res.status(500).json({ error: 'Failed to delete event' });
+    }
+  });
+  
 
 module.exports = router;

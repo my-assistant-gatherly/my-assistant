@@ -3,7 +3,7 @@ const eventsReducer = (
     action
   ) => {
     switch (action.type) {
-      case 'ADD_EVENT':
+      case 'SET_EVENT':
         return { ...state, events: [...state.events, action.payload] };
   
       case 'SET_LOADING':
