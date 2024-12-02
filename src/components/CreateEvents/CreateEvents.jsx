@@ -20,16 +20,53 @@ function CreateEventsPage() {
     isPrivate: true,
     notes: '',
     tasks: '',
+    invitedUsers: [], // Added for storing invited users
   });
+  const [userSuggestions, setUserSuggestions] = useState([]); // Added for autocomplete suggestions
+  const [searchTerm, setSearchTerm] = useState(''); // Added for the search input
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
   };
 
+  const handleSearchChange = async (e) => {
+    const query = e.target.value;
+    setSearchTerm(query);
+
+    if (query.length > 1) {
+      try {
+        const response = await axios.get(`/api/user/search?query=${query}`); // Fetch autocomplete suggestions
+        setUserSuggestions(response.data);
+      } catch (error) {
+        console.error('Error fetching user suggestions:', error);
+      }
+    } else {
+      setUserSuggestions([]);
+    }
+  };
+
+  const handleSelectUser = (user) => {
+    if (!eventData.invitedUsers.find((u) => u.id === user.id)) {
+      setEventData({
+        ...eventData,
+        invitedUsers: [...eventData.invitedUsers, user], // Add selected user to invitedUsers
+      });
+    }
+    setSearchTerm(''); // Clear search input
+    setUserSuggestions([]); // Clear suggestions
+  };
+
+  const handleRemoveUser = (userId) => {
+    setEventData({
+      ...eventData,
+      invitedUsers: eventData.invitedUsers.filter((user) => user.id !== userId), // Remove user from invitedUsers
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { title, start_date, end_date, start_time, end_time, duration, location, description, isPrivate, notes, tasks } = eventData;
+    const { title, start_date, end_date, start_time, end_time, duration, location, description, isPrivate, notes, tasks, invitedUsers } = eventData;
 
     if (!title || !start_date || !end_date || !start_time || !end_time || !location) {
       alert('Please fill in all required fields.');
@@ -52,6 +89,7 @@ function CreateEventsPage() {
         is_public: !isPrivate,
         notes: notes || '',
         tasks: tasks || '',
+        invitedUsers: isPrivate ? invitedUsers : [], // Include invited users only for private events
       });
 
       dispatch({ type: 'SET_EVENT', payload: response.data });
@@ -69,6 +107,7 @@ function CreateEventsPage() {
         isPrivate: true,
         notes: '',
         tasks: '',
+        invitedUsers: [],
       });
 
       history.push('/my-events');
@@ -197,6 +236,40 @@ function CreateEventsPage() {
           />
           <label>Public</label>
         </div>
+
+        {/* Invite Users (Only for Private Events) */}
+        {eventData.isPrivate && (
+          <div>
+            <input
+              type="text"
+              placeholder="Invite Users"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            {userSuggestions.length > 0 && (
+              <ul>
+                {userSuggestions.map((user) => (
+                  <li key={user.id} onClick={() => handleSelectUser(user)}>
+                    {user.fullname}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div>
+              {eventData.invitedUsers.map((user) => (
+                <div key={user.id}>
+                  {user.fullname}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveUser(user.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <br />
 
