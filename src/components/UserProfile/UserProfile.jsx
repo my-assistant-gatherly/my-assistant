@@ -35,21 +35,19 @@ function UserProfile() {
 
   const handleImageUpload = async () => {
     if (!newImage) return;
-
+  
     const formData = new FormData();
     formData.append('file', newImage);
-    formData.append('upload_preset', 'your_upload_preset'); // I will replave it 
+  
     try {
-      const response = await axios.post(
-        'cloudinary url goes here', // I will Replace with  Cloudinary API endpoint
-        formData
-      );
-      setFormData({ ...formData, image_url: response.data.secure_url });
+      const response = await axios.post('/api/user/image/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setFormData({ ...formData, image_url: response.data.url });
     } catch (error) {
-      console.error('Image upload failed:', error);
+      console.error('Error uploading image:', error);
     }
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
