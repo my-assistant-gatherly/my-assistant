@@ -7,8 +7,8 @@ import React from 'react';
 
 function AboutPage() {
   return (
-    <div className="container">
-        <h1 style={{color: 'purple'}}>About My Assistant</h1>
+    <div className="abt-pg-my-asst" style={{ padding: '100px', marginLeft: '0', marginRight: 'auto', textAlign: 'left' }}>
+        <h2 style={{color: 'purple'}}>About My Assistant</h2>
         <p>My Assistant is a user-friendly event management application designed to 
           simplify the planning, organization, and viewing of events. It fosters a 
           sense of community by helping users connect through events while providing 
@@ -42,7 +42,7 @@ function AboutPage() {
         <h2 style={{color: 'purple'}}>Purpose</h2>
         <p>The app is designed not only to simplify event planning but also to strengthen connections within a community. Whether creating public gatherings or private events, My Assistant helps users share their skills, organize effectively, and engage with others. Its practical features and collaborative design empower users to build meaningful relationships while managing events with ease.
         </p>
-      </div>
+    </div>
   );
 }
 
