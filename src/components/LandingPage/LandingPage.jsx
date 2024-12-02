@@ -17,9 +17,8 @@ function LandingPage() {
     <div className="container">
 
       <div className="flex">
-       {/* TODO: Add logo  */}
-       {/* TODO: Just a placeholder for now */}
-       <img src="/public/images/AI-Gen.png" alt="logo" />
+        
+       <img src="/public/images/minister.jpg" alt="logo" />
         <div className="flex-col">
          <LoginPage />
         </div>
