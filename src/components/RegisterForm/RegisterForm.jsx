@@ -31,6 +31,7 @@ function RegisterForm() {
 
   return (
     <Box component="form" className="formPanel" onSubmit={registerUser} noValidate autoComplete="off">
+      <img className="logo" src="/public/images/gatherly.png" alt="logo" />
       <Typography variant="h4" component="h2" gutterBottom className="register-form-title">
         Join <span>My-Assistant</span>
       </Typography>
