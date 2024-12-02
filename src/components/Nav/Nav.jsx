@@ -118,7 +118,7 @@ function Nav() {
                       handleClose();
                     }} 
                     component={Link} 
-                    to="/view-events"
+                    to="/events"
                   >
                     View Events
                   </MenuItem>
