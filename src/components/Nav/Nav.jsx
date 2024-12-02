@@ -132,6 +132,16 @@ function Nav() {
                   >
                     Create Events
                   </MenuItem>
+                  <MenuItem 
+                    onClick={() => {
+                      setSelectedEvent(' Edit Events');
+                      handleClose();
+                    }} 
+                    component={Link} 
+                    to="/edit-events"
+                  >
+                    Edit Events
+                  </MenuItem>
                 </Menu>
               </div>
 

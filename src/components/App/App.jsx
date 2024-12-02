@@ -22,6 +22,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import BigCalendar from '../BigCalendar/BigCalendar';
+import EditEvents from '../EditEvents/EditEvents';
 
 import './App.css';
 
@@ -87,6 +88,14 @@ function App() {
             <MyEvents />
           </ProtectedRoute>
 
+          <ProtectedRoute
+            // logged in shows EditEvents else shows LoginPage
+            exact
+            path="/edit-events"
+          >
+            <EditEvents/>
+
+          </ProtectedRoute>
           <ProtectedRoute
        // logged in shows UserProfile else shows LoginPage
         exact
