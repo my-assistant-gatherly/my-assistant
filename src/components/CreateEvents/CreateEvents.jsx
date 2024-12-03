@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import './CreateEvents.css'
 
 function CreateEventsPage() {
   const history = useHistory();
@@ -9,26 +10,19 @@ function CreateEventsPage() {
   const userId = useSelector(state => state.user.id);
 
   const [eventData, setEventData] = useState({
-    title: '',
-    start_date: '',
-    end_date: '',
-    start_time: '',
-    end_time: '',
-    duration: '',
-    location: '',
-    description: '',
-    isPrivate: true,
-    notes: '',
-    tasks: '',
-    invitedUsers: [], // Added for storing invited users
+    invitedUsers: [],
   });
-  const [userSuggestions, setUserSuggestions] = useState([]); // Added for autocomplete suggestions
-  const [searchTerm, setSearchTerm] = useState(''); // Added for the search input
+  const [userSuggestions, setUserSuggestions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
   };
+
+  const handleCancel = (e) => {
+    history.push('./events')
+  }
 
   const handleSearchChange = async (e) => {
     const query = e.target.value;
@@ -36,7 +30,7 @@ function CreateEventsPage() {
 
     if (query.length > 1) {
       try {
-        const response = await axios.get(`/api/user/search?query=${query}`); // Fetch autocomplete suggestions
+        const response = await axios.get(`/api/user/search?query=${query}`);
         setUserSuggestions(response.data);
       } catch (error) {
         console.error('Error fetching user suggestions:', error);
@@ -50,17 +44,17 @@ function CreateEventsPage() {
     if (!eventData.invitedUsers.find((u) => u.id === user.id)) {
       setEventData({
         ...eventData,
-        invitedUsers: [...eventData.invitedUsers, user], // Add selected user to invitedUsers
+        invitedUsers: [...eventData.invitedUsers, user],
       });
     }
-    setSearchTerm(''); // Clear search input
-    setUserSuggestions([]); // Clear suggestions
+    setSearchTerm('');
+    setUserSuggestions([]);
   };
 
   const handleRemoveUser = (userId) => {
     setEventData({
       ...eventData,
-      invitedUsers: eventData.invitedUsers.filter((user) => user.id !== userId), // Remove user from invitedUsers
+      invitedUsers: eventData.invitedUsers.filter((user) => user.id !== userId),
     });
   };
 
@@ -89,24 +83,13 @@ function CreateEventsPage() {
         is_public: !isPrivate,
         notes: notes || '',
         tasks: tasks || '',
-        invitedUsers: isPrivate ? invitedUsers : [], // Include invited users only for private events
+        invitedUsers: isPrivate ? invitedUsers : [],
       });
 
       dispatch({ type: 'SET_EVENT', payload: response.data });
       alert('Event Created Successfully 🎉');
 
       setEventData({
-        title: '',
-        start_date: '',
-        end_date: '',
-        start_time: '',
-        end_time: '',
-        location: '',
-        duration: '',
-        description: '',
-        isPrivate: true,
-        notes: '',
-        tasks: '',
         invitedUsers: [],
       });
 
@@ -134,42 +117,56 @@ function CreateEventsPage() {
           onChange={handleChange}
           required
         />
-        Start Date
-        <input
-          type="date"
-          name="start_date"
-          placeholder="Event Date"
-          value={eventData.start_date}
-          onChange={handleChange}
-          required
-        />
-        End Date
-        <input
-          type="date"
-          name="end_date"
-          placeholder="Event Date"
-          value={eventData.end_date}
-          onChange={handleChange}
-          required
-        />
-        Start Time
-        <input
-          type="time"
-          name="start_time"
-          placeholder="Event Time"
-          value={eventData.start_time}
-          onChange={handleChange}
-          required
-        />
-        End Time
-        <input
-          type="time"
-          name="end_time"
-          placeholder="Event Time"
-          value={eventData.end_time}
-          onChange={handleChange}
-          required
-        />
+
+        <div className="CE_row">
+          <div>
+            Start Date
+            <input
+              type="date"
+              name="start_date"
+              placeholder="Event Date"
+              value={eventData.start_date}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            End Date
+            <input
+              type="date"
+              name="end_date"
+              placeholder="Event Date"
+              value={eventData.end_date}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="CE_row">
+          <div>
+            Start Time
+            <input
+              type="time"
+              name="start_time"
+              placeholder="Event Time"
+              value={eventData.start_time}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            End Time
+            <input
+              type="time"
+              name="end_time"
+              placeholder="Event Time"
+              value={eventData.end_time}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
 
         Duration
         <input
@@ -194,27 +191,26 @@ function CreateEventsPage() {
 
         <br />
 
-        <textarea
+        Description<textarea
           name="description"
-          placeholder="Description"
+          placeholder="Enter Description Here"
           value={eventData.description}
           onChange={handleChange}
         />
         <br />
-        <textarea
+        Notes<textarea
           name="notes"
-          placeholder="Notes"
+          placeholder="Add Notes Here"
           value={eventData.notes}
           onChange={handleChange}
         />
         <br />
-        <textarea
+        Tasks<textarea
           name="tasks"
-          placeholder="Tasks"
+          placeholder="Enter Tasks Here"
           value={eventData.tasks}
           onChange={handleChange}
         />
-
         <br />
 
         <div>
@@ -225,7 +221,7 @@ function CreateEventsPage() {
             checked={eventData.isPrivate === true}
             onChange={() => setEventData({ ...eventData, isPrivate: true })}
           />
-          <label>Private</label>
+          <label>Private </label>
 
           <input
             type="radio"
@@ -235,9 +231,14 @@ function CreateEventsPage() {
             onChange={() => setEventData({ ...eventData, isPrivate: false })}
           />
           <label>Public</label>
+
+          {eventData.isPrivate && (
+            <p style={{ color: 'red', marginTop: '10px' }}>
+              Be sure to add your own name below as an invited user to events marked private.
+            </p>
+          )}
         </div>
 
-        {/* Invite Users (Only for Private Events) */}
         {eventData.isPrivate && (
           <div>
             <input
@@ -276,6 +277,10 @@ function CreateEventsPage() {
         <button
           type="submit"
         > Save</button>
+
+        <button onClick={handleCancel}
+          type="submit"
+        > Cancel</button>
 
       </div>
     </form>

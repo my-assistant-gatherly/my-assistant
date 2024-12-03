@@ -1,11 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  HashRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
-
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
@@ -22,14 +16,14 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import BigCalendar from '../BigCalendar/BigCalendar';
-import EditEvents from '../EditEvents/EditEvents';
+import EventDetails from '../EventDetails/EventDetails';
+import EditEvents from '../EditEvents/EditEvents'; // Import EditEvents component
 
 import './App.css';
 
 function App() {
   const dispatch = useDispatch();
-
-  const user = useSelector(store => store.user);
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -59,7 +53,7 @@ function App() {
             <CreateEventsPage />
           </ProtectedRoute>
 
-          <ProtectedRoute exact path="/view-events">
+          <ProtectedRoute exact path="/events">
             <ViewEvents />
           </ProtectedRoute>
 
@@ -67,34 +61,17 @@ function App() {
             <MyEvents />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows EditEvents else shows LoginPage
-            exact
-            path="/edit-events"
-          >
-            <EditEvents/>
-
+          <ProtectedRoute exact path="/event/:id">
+            <EventDetails />
           </ProtectedRoute>
-          <ProtectedRoute
-       // logged in shows UserProfile else shows LoginPage
-        exact
-         path="/user-profile"
->
-  <     UserProfile />
-      </ProtectedRoute>
 
-          <ProtectedRoute exact path="/edit-events"
-          >
-            <EditEvents/>
-
+          <ProtectedRoute exact path="/user-profile">
+            <UserProfile />
           </ProtectedRoute>
-          <ProtectedRoute
-       // logged in shows UserProfile else shows LoginPage
-        exact
-         path="/user-profile"
->
-  <     UserProfile />
-      </ProtectedRoute>
+
+          <ProtectedRoute exact path="/edit-events">
+            <EditEvents />
+          </ProtectedRoute>
 
           <ProtectedRoute exact path="/calendar">
             <BigCalendar />
