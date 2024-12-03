@@ -75,7 +75,7 @@ function App() {
           <ProtectedRoute
             // logged in shows ViewEventsPage else shows LoginPage
             exact
-            path="/view-events"
+            path="/events"
           >
             <ViewEvents />
           </ProtectedRoute>
