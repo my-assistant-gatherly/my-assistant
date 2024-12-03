@@ -120,4 +120,31 @@ router.put('/:id/like', async (req, res) => {
   }
 });
 
+// Get details for a specific event
+router.get('/details/:id', async (req, res) => {
+    try {
+        const eventId = req.params.id;
+        const query = `
+            SELECT e.*, 
+                   array_agg(DISTINCT t.task) FILTER (WHERE t.task IS NOT NULL) as tasks,
+                   array_agg(DISTINCT n.note) FILTER (WHERE n.note IS NOT NULL) as notes
+            FROM "events" e
+            LEFT JOIN "tasks_events" t ON e.id = t.event_id
+            LEFT JOIN "notes_events" n ON e.id = n.event_id
+            WHERE e.id = $1
+            GROUP BY e.id;
+        `;
+        const result = await pool.query(query, [eventId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Event not found' });
+        }
+        
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error('Error fetching event details:', error);
+        res.status(500).json({ error: 'Failed to fetch event details' });
+    }
+});
+
 module.exports = router;

@@ -209,11 +209,19 @@ function ViewEvents() {
                 display: 'flex', 
                 flexDirection: 'column',
                 transition: 'all 0.3s ease-in-out',
+                cursor: 'pointer',
                 '&:hover': {
                   transform: 'translateY(-8px)',
                   boxShadow: '0 12px 20px rgba(0,0,0,0.2)',
                 }
-              }}>
+              }}
+              onClick={(e) => {
+                // Don't navigate if clicking the like button
+                if (!e.defaultPrevented) {
+                  history.push(`/event/${event.id}`);
+                }
+              }}
+              >
                 <CardContent sx={{ flexGrow: 1, p: 3 }}>
                   {/* Event title with public/private icon */}
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -260,7 +268,10 @@ function ViewEvents() {
                   <Button
                     variant="outlined"
                     size="small"
-                    onClick={() => handleLike(event.id)}
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevent card click event
+                      handleLike(event.id);
+                    }}
                     startIcon={<ThumbUp />}
                     color="primary"
                     sx={{
