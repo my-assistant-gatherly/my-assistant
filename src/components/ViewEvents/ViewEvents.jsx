@@ -52,6 +52,7 @@ function ViewEvents() {
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Store error messages
   const [user, setUser] = useState(null); // Store user information
+  const [searchQuery, setSearchQuery] = useState(''); // Add search query state
 
   /**
    * Effect hook to fetch user data when component mounts.
@@ -133,15 +134,33 @@ function ViewEvents() {
   };
 
   const getFilteredEvents = () => {
+    let filteredEvents = events;
+    
+    // Apply filter
     switch (filter) {
       case 'my-events':
-        return events.filter(event => event.owner_id === user.id);
+        filteredEvents = filteredEvents.filter(event => event.owner_id === user.id);
+        break;
       case 'invite-only':
-        return events.filter(event => !event.is_public && event.owner_id !== user.id);
+        filteredEvents = filteredEvents.filter(event => !event.is_public && event.owner_id !== user.id);
+        break;
       case 'all':
       default:
-        return events.filter(event => event.is_public || event.owner_id === user.id);
+        filteredEvents = filteredEvents.filter(event => event.is_public || event.owner_id === user.id);
     }
+    
+    // Apply search
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      filteredEvents = filteredEvents.filter(event =>
+        event.event_title?.toLowerCase().includes(query) ||
+        event.description?.toLowerCase().includes(query) ||
+        event.location?.toLowerCase().includes(query) ||
+        event.creator?.fullname?.toLowerCase().includes(query)
+      );
+    }
+    
+    return filteredEvents;
   };
 
   return (
@@ -183,18 +202,42 @@ function ViewEvents() {
         
         {/* Action buttons */}
         <Box sx={{ display: 'flex', gap: 2 }}>
-          {/* Search button with gradient */}
-          <Button
-            variant="contained"
-            startIcon={<Search />}
-            onClick={() => history.push('/search-events')}
-            sx={{
-              background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-              boxShadow: '0 3px 5px 2px rgba(33, 203, 243, .3)',
-            }}
-          >
-            Search
-          </Button>
+          {/* Search input with icon */}
+          <Box sx={{ 
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <Search sx={{ 
+              position: 'absolute',
+              left: '10px',
+              color: 'action.active',
+              pointerEvents: 'none'
+            }} />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search events..."
+              style={{
+                padding: '8px 8px 8px 40px',
+                borderRadius: '4px',
+                border: '1px solid rgba(0, 0, 0, 0.23)',
+                fontSize: '1rem',
+                width: '200px',
+                outline: 'none',
+                transition: 'all 0.3s ease',
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#4ECDC4';
+                e.target.style.boxShadow = '0 0 0 2px rgba(78,205,196,0.2)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'rgba(0, 0, 0, 0.23)';
+                e.target.style.boxShadow = 'none';
+              }}
+            />
+          </Box>
           {/* Create event button with gradient */}
           <Button
             variant="contained"
