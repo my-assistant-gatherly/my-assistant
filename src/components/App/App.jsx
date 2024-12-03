@@ -23,6 +23,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import BigCalendar from '../BigCalendar/BigCalendar';
 import EditEvents from '../EditEvents/EditEvents';
+import EventDetails from '../EventDetails/EventDetails';
 
 import './App.css';
 
@@ -97,14 +98,20 @@ function App() {
 
           </ProtectedRoute>
           <ProtectedRoute
-       // logged in shows UserProfile else shows LoginPage
-        exact
-         path="/user-profile"
->
-  <     UserProfile />
-      </ProtectedRoute>
+            // logged in shows EventDetails else shows LoginPage
+            exact
+            path="/event/:id"
+          >
+            <EventDetails />
+          </ProtectedRoute>
 
-
+          <ProtectedRoute
+            // logged in shows UserProfile else shows LoginPage
+            exact
+            path="/user-profile"
+          >
+            <UserProfile />
+          </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows CreateEventsPage else shows LoginPage
