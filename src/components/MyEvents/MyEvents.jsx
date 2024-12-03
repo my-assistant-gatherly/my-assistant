@@ -54,7 +54,7 @@ export default function MyEvents() {
 
   const handleEdit = (id) => {
     console.log(`Editing event with id: ${id}`);
-    //history.push('/edit-events');
+    history.push('/edit-events');
   };
 
   const handleDelete = async (id) => {
