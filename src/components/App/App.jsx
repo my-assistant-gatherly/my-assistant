@@ -1,11 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  HashRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
-
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
@@ -23,13 +17,13 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import BigCalendar from '../BigCalendar/BigCalendar';
 import EventDetails from '../EventDetails/EventDetails';
+import EditEvents from '../EditEvents/EditEvents'; // Import EditEvents component
 
 import './App.css';
 
 function App() {
   const dispatch = useDispatch();
-
-  const user = useSelector(store => store.user);
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -38,127 +32,71 @@ function App() {
   return (
     <Router>
       <div>
-        <Nav />
+        {/* Conditionally render the Nav component */}
+        {user.id && <Nav />}
+
         <Switch>
-          {/* Visiting localhost:5173 will redirect to localhost:5173/home */}
+          {/* Redirect root path to /home */}
           <Redirect exact from="/" to="/home" />
 
-          {/* Visiting localhost:5173/about will show the about page. */}
-          <Route
-            // shows AboutPage at all times (logged in or not)
-            exact
-            path="/about"
-          >
+          {/* Public route for AboutPage */}
+          <Route exact path="/about">
             <AboutPage />
           </Route>
 
-          {/* For protected routes, the view could show one of several things on the same route.
-            Visiting localhost:5173/user will show the UserPage if the user is logged in.
-            If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
-            Even though it seems like they are different pages, the user is always on localhost:5173/user */}
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/user"
-          >
+          {/* Protected Routes */}
+          <ProtectedRoute exact path="/user">
             <UserPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows CreateEventsPage else shows LoginPage
-            exact
-            path="/create-events"
-          >
+          <ProtectedRoute exact path="/create-events">
             <CreateEventsPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows ViewEventsPage else shows LoginPage
-            exact
-            path="/events"
-          >
+          <ProtectedRoute exact path="/events">
             <ViewEvents />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows MyEventsPage else shows LoginPage
-            exact
-            path="/my-events"
-          >
+          <ProtectedRoute exact path="/my-events">
             <MyEvents />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows EventDetails else shows LoginPage
-            exact
-            path="/event/:id"
-          >
+          <ProtectedRoute exact path="/event/:id">
             <EventDetails />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows UserProfile else shows LoginPage
-            exact
-            path="/user-profile"
-          >
+          <ProtectedRoute exact path="/user-profile">
             <UserProfile />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            // logged in shows CreateEventsPage else shows LoginPage
-            exact
-            path="/calendar"
-          >
+          <ProtectedRoute exact path="/edit-events">
+            <EditEvents />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path="/calendar">
             <BigCalendar />
           </ProtectedRoute>
 
-          <Route
-            exact
-            path="/login"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the login page
-              <LoginPage />
-            }
+          {/* Public Routes */}
+          <Route exact path="/login">
+            {user.id ? <Redirect to="/user" /> : <LoginPage />}
           </Route>
 
-          <Route
-            exact
-            path="/registration"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the registration page
-              <RegisterPage />
-            }
+          <Route exact path="/registration">
+            {user.id ? <Redirect to="/user" /> : <RegisterPage />}
           </Route>
 
-          <Route
-            exact
-            path="/home"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the Landing page
-              <LandingPage />
-            }
+          <Route exact path="/home">
+            {user.id ? <Redirect to="/user" /> : <LandingPage />}
           </Route>
 
-          {/* If none of the other routes matched, we will show a 404. */}
+          {/* 404 Page */}
           <Route>
             <h1>404</h1>
           </Route>
         </Switch>
+
+        {/* Footer */}
         <Footer />
       </div>
     </Router>
