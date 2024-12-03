@@ -132,6 +132,18 @@ function ViewEvents() {
     setFilter(e.target.value);
   };
 
+  const getFilteredEvents = () => {
+    switch (filter) {
+      case 'my-events':
+        return events.filter(event => event.owner_id === user.id);
+      case 'invite-only':
+        return events.filter(event => !event.is_public && event.owner_id !== user.id);
+      case 'all':
+      default:
+        return events.filter(event => event.is_public || event.owner_id === user.id);
+    }
+  };
+
   return (
     <Container maxWidth="lg" sx={{ py: 4, mt: 7}}>
       {/* Header section with gradient background */}
@@ -151,9 +163,21 @@ function ViewEvents() {
             value={filter}
             label="Filter Events"
             onChange={handleFilterChange}
+            sx={{
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgba(0,0,0,0.1)',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#4ECDC4',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#4ECDC4',
+              }
+            }}
           >
-            <MenuItem value="all">All</MenuItem>
-            <MenuItem value="invite-only">Invite Only</MenuItem>
+            <MenuItem value="all">All Events</MenuItem>
+            <MenuItem value="my-events">My Events</MenuItem>
+            <MenuItem value="invite-only">Invite-Only</MenuItem>
           </Select>
         </FormControl>
         
@@ -201,84 +225,180 @@ function ViewEvents() {
       ) : (
         // Display grid of event cards
         <Grid container spacing={3}>
-          {events.map((event) => (
+          {getFilteredEvents().map((event) => (
             <Grid item xs={12} sm={6} md={4} key={event.id}>
               {/* Event card with hover animation */}
-              <Card sx={{ 
-                height: '100%', 
-                display: 'flex', 
-                flexDirection: 'column',
-                transition: 'all 0.3s ease-in-out',
-                cursor: 'pointer',
-                '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: '0 12px 20px rgba(0,0,0,0.2)',
-                }
-              }}
-              onClick={(e) => {
-                // Don't navigate if clicking the like button
-                if (!e.defaultPrevented) {
-                  history.push(`/event/${event.id}`);
-                }
-              }}
+              <Card 
+                onClick={() => history.push(`/event/${event.id}`)}
+                sx={{ 
+                  height: '100%', 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  overflow: 'visible',
+                  borderRadius: 2,
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 12px 20px rgba(0,0,0,0.1)',
+                  },
+                }}
               >
+                {/* Public Event Badge for all public events */}
+                {event.is_public && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: -10,
+                      right: -10,
+                      backgroundColor: '#4ECDC4',
+                      color: 'white',
+                      padding: '4px 12px',
+                      borderRadius: '20px',
+                      fontSize: '0.75rem',
+                      fontWeight: 'bold',
+                      boxShadow: '0 4px 8px rgba(78,205,196,0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.5,
+                      zIndex: 1,
+                    }}
+                  >
+                    <Public sx={{ fontSize: 16 }} />
+                    PUBLIC
+                  </Box>
+                )}
+
                 <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                  {/* Event title with public/private icon */}
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    {event.is_public ? 
-                      <Public color="primary" sx={{ mr: 1 }} /> :
-                      <Lock color="secondary" sx={{ mr: 1 }} />
-                    }
-                    {/* Event title */}
-                    <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+                  {/* Event Title and Status */}
+                  <Box sx={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center', 
+                    mb: 2,
+                    pb: 2,
+                    borderBottom: '1px solid rgba(0,0,0,0.06)'
+                  }}>
+                    <Typography 
+                      variant="h6" 
+                      component="h2" 
+                      sx={{ 
+                        fontWeight: 'bold',
+                        color: '#2C3E50',
+                        fontSize: '1.25rem',
+                      }}
+                    >
                       {event.event_title}
                     </Typography>
+                    {!event.is_public && (
+                      <Lock sx={{ color: '#FF6B6B' }} />
+                    )}
                   </Box>
 
-                  {/* Event description */}
-                  <Box sx={{ display: 'flex', alignItems: 'start', mb: 2 }}>
-                    <Description color="action" sx={{ mr: 1, mt: 0.5 }} />
-                    <Typography variant="body2" color="text.secondary">
-                      {event.description || 'No description available'}
-                    </Typography>
-                  </Box>
+                  {/* Creator information with enhanced styling */}
+                  {event.creator && (
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      mb: 2,
+                      pb: 2,
+                      borderBottom: '1px solid rgba(0,0,0,0.06)',
+                      color: '#666'
+                    }}>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          fontStyle: 'italic',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          color: '#666',
+                          fontSize: '0.875rem'
+                        }}
+                      >
+                        Created by: {event.creator.fullname}
+                      </Typography>
+                    </Box>
+                  )}
 
-                  {/* Event date */}
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                    <Event color="action" sx={{ mr: 1 }} />
-                    <Typography variant="body2" color="text.secondary">
-                      {new Date(event.start_date).toLocaleDateString()}
-                    </Typography>
-                  </Box>
+                  {/* Event Details with enhanced styling */}
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    {/* Description */}
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'start', 
+                      gap: 1,
+                      backgroundColor: 'rgba(0,0,0,0.02)',
+                      padding: 1.5,
+                      borderRadius: 1
+                    }}>
+                      <Description sx={{ color: '#666', mt: 0.5 }} />
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: '#666',
+                          lineHeight: 1.6,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden'
+                        }}
+                      >
+                        {event.description || 'No description available'}
+                      </Typography>
+                    </Box>
+                    
+                    {/* Date and Location with subtle backgrounds */}
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 1,
+                      backgroundColor: 'rgba(0,0,0,0.02)',
+                      padding: 1,
+                      borderRadius: 1
+                    }}>
+                      <Event sx={{ color: '#666' }} />
+                      <Typography variant="body2" sx={{ color: '#666' }}>
+                        {new Date(event.start_date).toLocaleDateString()}
+                      </Typography>
+                    </Box>
 
-                  {/* Event location */}
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <LocationOn color="action" sx={{ mr: 1 }} />
-                    <Typography variant="body2" color="text.secondary">
-                      {event.location}
-                    </Typography>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 1,
+                      backgroundColor: 'rgba(0,0,0,0.02)',
+                      padding: 1,
+                      borderRadius: 1
+                    }}>
+                      <LocationOn sx={{ color: '#666' }} />
+                      <Typography variant="body2" sx={{ color: '#666' }}>
+                        {event.location}
+                      </Typography>
+                    </Box>
                   </Box>
                 </CardContent>
 
-                {/* Divider line before actions */}
-                <Divider sx={{ mx: 2 }} />
-                
-                {/* Card actions - Like button */}
-                <CardActions sx={{ justifyContent: 'flex-end', p: 2 }}>
+                {/* Enhanced Card Actions */}
+                <CardActions sx={{ 
+                  p: 2, 
+                  pt: 0,
+                  borderTop: '1px solid rgba(0,0,0,0.06)',
+                  justifyContent: 'flex-end'
+                }}>
                   <Button
-                    variant="outlined"
                     size="small"
+                    startIcon={<ThumbUp />}
                     onClick={(e) => {
-                      e.preventDefault(); // Prevent card click event
+                      e.stopPropagation();
                       handleLike(event.id);
                     }}
-                    startIcon={<ThumbUp />}
-                    color="primary"
                     sx={{
-                      borderRadius: 20,
+                      color: '#4ECDC4',
+                      fontWeight: 'medium',
                       '&:hover': {
-                        background: 'rgba(25, 118, 210, 0.04)',
-                        transform: 'scale(1.05)'
+                        backgroundColor: 'rgba(78,205,196,0.1)',
                       }
                     }}
                   >
