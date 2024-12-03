@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem, Avatar } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function Nav() {
@@ -61,9 +61,6 @@ function Nav() {
               <Link className="navLink" to="/user">
                 Home
               </Link>
-              <Link className="navLink" to="/user-profile">
-                Profile
-                </Link>
 
               <Link className="navLink" to="/calendar">
                 Calendar
@@ -80,6 +77,44 @@ function Nav() {
           <Link className="navLink" to="/about">
             About
           </Link>
+
+          {user.id && (
+            <Link className="navLink profile-link" to="/user-profile">
+              {user.image_url ? (
+                <Avatar 
+                  src={user.image_url} 
+                  alt={user.username}
+                  sx={{ 
+                    width: 40, 
+                    height: 40,
+                    border: '2px solid white',
+                    '&:hover': {
+                      border: '2px solid #f2f2f2',
+                      transform: 'scale(1.05)',
+                      transition: 'all 0.3s ease'
+                    }
+                  }}
+                />
+              ) : (
+                <Avatar 
+                  sx={{ 
+                    width: 40, 
+                    height: 40,
+                    bgcolor: '#f2f2f2',
+                    color: 'blue',
+                    border: '2px solid white',
+                    '&:hover': {
+                      border: '2px solid #f2f2f2',
+                      transform: 'scale(1.05)',
+                      transition: 'all 0.3s ease'
+                    }
+                  }}
+                >
+                  {user.username ? user.username[0].toUpperCase() : 'U'}
+                </Avatar>
+              )}
+            </Link>
+          )}
         </div>
       </div>
     </div>

@@ -69,3 +69,13 @@ button.navLink:hover {
   padding: 10px;
   transition: background-color 0.3s ease;
 }
+
+/* Profile link styles */
+.profile-link {
+  padding: 14px 10px !important;
+}
+
+.profile-link:hover {
+  background: none !important;
+  padding: 14px 10px !important;
+}
