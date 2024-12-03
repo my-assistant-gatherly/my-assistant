@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color:blue;
   position: fixed;
   top: 0;
   left: 0;
@@ -69,7 +70,7 @@
 
 .dropdown-menu {
   position: absolute;
-  top: 40px; 
+  top: 40px;
   left: 0;
   background-color: white;
   border: 1px solid #d8b4e2;
