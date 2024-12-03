@@ -23,13 +23,12 @@ export default function BigCalendar() {
   const formatEventData = (eventData) => {
     return eventData.map(event => ({
       title: event.event_title,
-      start: new Date(event.start_date),
-      end: new Date(event.end_date),
+      start: moment(event.start_date).add(event.start_time, 'hours').toDate(),
+      end: moment(event.end_date).add(event.end_time, 'hours').toDate(),
       // Add any other properties needed by the Calendar component
     }));
   };
 
-  
 
   const userId = useSelector(state => state.user.id);
 
