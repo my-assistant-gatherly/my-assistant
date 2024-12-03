@@ -20,6 +20,10 @@ function CreateEventsPage() {
     setEventData({ ...eventData, [name]: value });
   };
 
+  const handleCancel = (e) => {
+    history.push('./events')
+  }
+
   const handleSearchChange = async (e) => {
     const query = e.target.value;
     setSearchTerm(query);
@@ -44,7 +48,7 @@ function CreateEventsPage() {
       });
     }
     setSearchTerm('');
-    setUserSuggestions([]); 
+    setUserSuggestions([]);
   };
 
   const handleRemoveUser = (userId) => {
@@ -113,42 +117,56 @@ function CreateEventsPage() {
           onChange={handleChange}
           required
         />
-        Start Date
-        <input
-          type="date"
-          name="start_date"
-          placeholder="Event Date"
-          value={eventData.start_date}
-          onChange={handleChange}
-          required
-        />
-        End Date
-        <input
-          type="date"
-          name="end_date"
-          placeholder="Event Date"
-          value={eventData.end_date}
-          onChange={handleChange}
-          required
-        />
-        Start Time
-        <input
-          type="time"
-          name="start_time"
-          placeholder="Event Time"
-          value={eventData.start_time}
-          onChange={handleChange}
-          required
-        />
-        End Time
-        <input
-          type="time"
-          name="end_time"
-          placeholder="Event Time"
-          value={eventData.end_time}
-          onChange={handleChange}
-          required
-        />
+
+        <div className="CE_row">
+          <div>
+            Start Date
+            <input
+              type="date"
+              name="start_date"
+              placeholder="Event Date"
+              value={eventData.start_date}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            End Date
+            <input
+              type="date"
+              name="end_date"
+              placeholder="Event Date"
+              value={eventData.end_date}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="CE_row">
+          <div>
+            Start Time
+            <input
+              type="time"
+              name="start_time"
+              placeholder="Event Time"
+              value={eventData.start_time}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            End Time
+            <input
+              type="time"
+              name="end_time"
+              placeholder="Event Time"
+              value={eventData.end_time}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
 
         Duration
         <input
@@ -193,7 +211,6 @@ function CreateEventsPage() {
           value={eventData.tasks}
           onChange={handleChange}
         />
-
         <br />
 
         <div>
@@ -214,6 +231,12 @@ function CreateEventsPage() {
             onChange={() => setEventData({ ...eventData, isPrivate: false })}
           />
           <label>Public</label>
+
+          {eventData.isPrivate && (
+            <p style={{ color: 'red', marginTop: '10px' }}>
+              Be sure to add your own name below as an invited user to events marked private.
+            </p>
+          )}
         </div>
 
         {eventData.isPrivate && (
@@ -254,6 +277,10 @@ function CreateEventsPage() {
         <button
           type="submit"
         > Save</button>
+
+        <button onClick={handleCancel}
+          type="submit"
+        > Cancel</button>
 
       </div>
     </form>

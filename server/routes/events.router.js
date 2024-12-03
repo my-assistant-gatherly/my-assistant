@@ -4,7 +4,7 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    const { user_id, event_title, start_date, end_date, start_time, end_time, duration, location, description, is_public, notes, tasks } = req.body;
+    const { user_id, event_title, start_date, end_date, start_time, end_time, duration, location, description, is_public, notes, tasks, invitedUsers  } = req.body;
 
     if (!user_id || !event_title || !start_date || !start_time || !location) {
         return res.status(400).json({ error: 'Missing required fields' });
@@ -57,6 +57,16 @@ router.post('/', async (req, res) => {
                 if (trimmedNote) {
                     await pool.query(noteQuery, [eventId, trimmedNote]);
                 }
+            }
+        }
+
+        if (!is_public && invitedUsers.length > 0) {
+            const attendeeQuery = `
+                INSERT INTO "private_events_attendees" ("event_id", "user_id")
+                VALUES ($1, $2);
+            `;
+            for (const user of invitedUsers) {
+                await pool.query(attendeeQuery, [eventId, user.id]);
             }
         }
 
