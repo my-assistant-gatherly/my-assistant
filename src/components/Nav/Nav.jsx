@@ -69,81 +69,9 @@ function Nav() {
                 Calendar
               </Link>
 
-              <div>
-                <Button
-                  id="events-button"
-                  aria-controls={open ? 'events-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClick}
-                  endIcon={<KeyboardArrowDownIcon />}
-                  sx={{ 
-                    color: 'inherit',
-                    textTransform: 'none',
-                    fontSize: '1rem'
-                  }}
-                >
-                  {selectedEvent}
-                </Button>
-                <Menu
-                  id="events-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'events-button',
-                  }}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                  }}
-                >
-                  <MenuItem 
-                    onClick={() => {
-                      setSelectedEvent('My Events');
-                      handleClose();
-                    }} 
-                    component={Link} 
-                    to="/my-events"
-                  >
-                    My Events
-                  </MenuItem>
-                  <MenuItem 
-                    onClick={() => {
-                      setSelectedEvent('View Events');
-                      handleClose();
-                    }} 
-                    component={Link} 
-                    to="/events"
-                  >
-                    View Events
-                  </MenuItem>
-                  <MenuItem 
-                    onClick={() => {
-                      setSelectedEvent('Create Events');
-                      handleClose();
-                    }} 
-                    component={Link} 
-                    to="/create-events"
-                  >
-                    Create Events
-                  </MenuItem>
-                  <MenuItem 
-                    onClick={() => {
-                      setSelectedEvent(' Edit Events');
-                      handleClose();
-                    }} 
-                    component={Link} 
-                    to="/edit-events"
-                  >
-                    Edit Events
-                  </MenuItem>
-                </Menu>
-              </div>
+              <Link className="navLink" to="/events">
+                Events
+              </Link>
 
               <LogOutButton className="navLink"/>
             </>

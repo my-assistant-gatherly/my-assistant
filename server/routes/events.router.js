@@ -77,10 +77,58 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Get details for a specific event
+router.get('/details/:id', async (req, res) => {
+    try {
+        const eventId = req.params.id;
+        const query = `
+            SELECT 
+                e.*,
+                u.username as creator_name,
+                array_agg(DISTINCT t.task) FILTER (WHERE t.task IS NOT NULL) as tasks,
+                array_agg(DISTINCT n.note) FILTER (WHERE n.note IS NOT NULL) as notes
+            FROM "events" e
+            LEFT JOIN "user" u ON e.owner_id = u.id
+            LEFT JOIN "tasks_events" t ON e.id = t.event_id
+            LEFT JOIN "notes_events" n ON e.id = n.event_id
+            WHERE e.id = $1
+            GROUP BY e.id, u.username;
+        `;
+        const result = await pool.query(query, [eventId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Event not found' });
+        }
+
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error('Error in GET /details/:id:', error);
+        res.status(500).json({ error: 'Failed to fetch event details' });
+    }
+});
+
+// Get events for a user
 router.get('/:user_id', async (req, res) => {
     try {
         const userId = req.params.user_id;
-        const query = 'SELECT * FROM "events" WHERE "owner_id" = $1;';
+        const query = `
+            SELECT 
+                e.*,
+                CASE 
+                    WHEN e.owner_id != $1 AND e.is_public = true 
+                    THEN json_build_object(
+                        'username', u.username, 
+                        'id', u.id,
+                        'fullname', u.fullname
+                    )
+                    ELSE NULL 
+                END as creator
+            FROM "events" e
+            LEFT JOIN "user" u ON e.owner_id = u.id
+            WHERE e.is_public = true 
+            OR e.owner_id = $1
+            ORDER BY e.start_date ASC, e.start_time ASC;
+        `;
         const result = await pool.query(query, [userId]);
         res.status(200).json(result.rows);
     } catch (error) {
@@ -128,33 +176,6 @@ router.put('/:id/like', async (req, res) => {
     console.error('Error updating likes:', error);
     res.status(500).json({ error: 'Failed to update likes' });
   }
-});
-
-// Get details for a specific event
-router.get('/details/:id', async (req, res) => {
-    try {
-        const eventId = req.params.id;
-        const query = `
-            SELECT e.*, 
-                   array_agg(DISTINCT t.task) FILTER (WHERE t.task IS NOT NULL) as tasks,
-                   array_agg(DISTINCT n.note) FILTER (WHERE n.note IS NOT NULL) as notes
-            FROM "events" e
-            LEFT JOIN "tasks_events" t ON e.id = t.event_id
-            LEFT JOIN "notes_events" n ON e.id = n.event_id
-            WHERE e.id = $1
-            GROUP BY e.id;
-        `;
-        const result = await pool.query(query, [eventId]);
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Event not found' });
-        }
-        
-        res.status(200).json(result.rows[0]);
-    } catch (error) {
-        console.error('Error fetching event details:', error);
-        res.status(500).json({ error: 'Failed to fetch event details' });
-    }
 });
 
 module.exports = router;
