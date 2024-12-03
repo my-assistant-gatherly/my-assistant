@@ -13,7 +13,7 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
-import UserPage from '../UserPage/UserPage';
+import HomePage from '../HomePage/HomePage';
 import UserProfile from '../UserProfile/UserProfile';
 import CreateEventsPage from '../CreateEvents/CreateEvents';
 import ViewEvents from '../ViewEvents/ViewEvents';
@@ -57,11 +57,11 @@ function App() {
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:5173/user */}
           <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
+            // logged in shows HomePage else shows LoginPage
             exact
             path="/user"
           >
-            <UserPage />
+            <HomePage />
           </ProtectedRoute>
 
           <ProtectedRoute
