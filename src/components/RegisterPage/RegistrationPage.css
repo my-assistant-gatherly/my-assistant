@@ -1,34 +1,12 @@
-.registration-page {
+.registration-page {  
     margin-top: 65px;
-    background-image: linear-gradient(to bottom, #b666c4, #ffffff); /* Updated to match Landing Page */
-    color: #333; /* Subtle dark text for contrast */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Full-page height for consistency */
+    background-image: linear-gradient(to bottom, #008346, #000783);
+    color: #fff;
 }
-
 .registration-page-login-button {
     margin-top: 1rem;
     margin-bottom: 1rem;
-    background-color: #d8b4e2;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
 }
-
-.registration-page-login-button:hover {
-    background-color: #caa0d9;
-}
-
 .register-form-title {
-    color: #b666c4; 
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    text-align: center;
+    color:black
 }

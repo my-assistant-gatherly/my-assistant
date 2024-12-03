@@ -1,61 +1,71 @@
-/* General Nav Styling */
 .nav {
+  /* flex box layout */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color:blue;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  background-color: #8917ac; /* Purple background */
-  padding: 10px 20px;
+
+  width: 100%;
+  margin: 0 0 30px;
+  overflow: hidden;
   color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav a {
+  text-decoration: none;
 }
 
 .nav-title {
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  color: #f2f2f2;
+  padding-left: 10px;
   margin: 0;
 }
 
-.nav-links-container {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
 .navLink {
-  color: white;
+  display: inline-block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 24px 10px;
   text-decoration: none;
-  font-size: 14px;
-  padding: 5px 10px;
+  font-size: 15px;
+
+  /* these last two make the logout button in
+  the nav bar look like another link */
+  /* border: none;
   cursor: pointer;
+  outline: 0; */
 }
 
 .navLink:hover {
-  color: #d8b4e2;
+  background-color:rgb(28, 40, 208);
+  border-radius: 10px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
 }
 
-.logout-button {
-  background-color: #d9534f;
-  padding: 6px 15px;
-  border-radius: 5px;
-}
-
-.logout-button:hover {
-  background-color: #c9302c;
-}
-
-/* Dropdown Menu Items */
-.dropdown-item {
-  color: #333;
+/* Added this specific style for the LogOutButton */
+button.navLink {
+  background-color: transparent;
+  color: #f2f2f2;
+  padding: 24px 10px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
   text-decoration: none;
 }
 
-.dropdown-item:hover {
-  color: #8917ac;
-  text-decoration: underline;
+button.navLink:hover {
+  background-color: rgb(28, 40, 208);
+  border-radius: 10px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
 }

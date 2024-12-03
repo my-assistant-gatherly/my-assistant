@@ -6,7 +6,7 @@ import './Login.css';
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const errors = useSelector((store) => store.errors);
+  const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
 
   const login = (event) => {
@@ -26,13 +26,7 @@ function LoginForm() {
   };
 
   return (
-    <Box
-      component="form"
-      className="formPanel"
-      onSubmit={login}
-      noValidate
-      sx={{ mt: 1 }}
-    >
+    <Box component="form" className="formPanel" onSubmit={login} noValidate sx={{ mt: 1 }}>
       <Typography component="h1" variant="h5">
         Login
       </Typography>
@@ -52,29 +46,6 @@ function LoginForm() {
         autoFocus
         value={username}
         onChange={(event) => setUsername(event.target.value)}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              borderColor: '#d8b4e2', // Light purple border
-            },
-            '&:hover fieldset': {
-              borderColor: '#caa0d9', // Darker purple on hover
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: '#b666c4', // Strong purple when focused
-            },
-          },
-          '& .MuiInputBase-input': {
-            backgroundColor: '#f3e6f7', // Light purple background
-            color: '#333', // Dark text for contrast
-          },
-          '& .MuiInputLabel-root': {
-            color: '#b666c4', // Purple label
-          },
-          '& .MuiInputLabel-root.Mui-focused': {
-            color: '#b666c4', // Purple label when focused
-          },
-        }}
       />
       <TextField
         margin="normal"
@@ -87,42 +58,12 @@ function LoginForm() {
         autoComplete="current-password"
         value={password}
         onChange={(event) => setPassword(event.target.value)}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              borderColor: '#d8b4e2', // Light purple border
-            },
-            '&:hover fieldset': {
-              borderColor: '#caa0d9', // Darker purple on hover
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: '#b666c4', // Strong purple when focused
-            },
-          },
-          '& .MuiInputBase-input': {
-            backgroundColor: '#f3e6f7', // Light purple background
-            color: '#333', // Dark text for contrast
-          },
-          '& .MuiInputLabel-root': {
-            color: '#b666c4', // Purple label
-          },
-          '& .MuiInputLabel-root.Mui-focused': {
-            color: '#b666c4', // Purple label when focused
-          },
-        }}
       />
       <Button
         type="submit"
         fullWidth
         variant="contained"
-        sx={{
-          mt: 3,
-          mb: 2,
-          backgroundColor: '#b666c4', // Purple button
-          '&:hover': {
-            backgroundColor: '#9c4fab', // Darker purple on hover
-          },
-        }}
+        sx={{ mt: 3, mb: 2 }}
       >
         Log In
       </Button>
