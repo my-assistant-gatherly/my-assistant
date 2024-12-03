@@ -15,7 +15,7 @@ function LandingPage() {
       />
 
       {/* Title below the logo */}
-      <h1 className="landing-title">My Minister's Assistant</h1>
+      <h1 className="landing-title">My Assistant</h1>
 
       {/* Buttons section */}
       <div className="landing-buttons">
