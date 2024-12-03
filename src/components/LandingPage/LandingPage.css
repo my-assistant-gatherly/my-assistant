@@ -1,86 +1,24 @@
-
-.landing-container {
+.container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin: 0 auto;
   height: 100vh;
-  background: linear-gradient(to bottom, #b666c4, #ffffff);
-  text-align: center;
-  padding: 20px;
+  width: 100%;
 }
 
-.landing-logo {
-  width: 250px;
-  height: 250px;
-  object-fit: contain;
-  border-radius: 50%;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-
-.landing-title {
-  font-family: 'Dancing Script', cursive;
-  font-size: 3rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 40px;
-  white-space: nowrap;
-  overflow: hidden;
-  animation: typing 3s steps(30, end);
-}
-
-
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-
-
-
-
-
-.landing-buttons {
+.flex {
   display: flex;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+} 
+.flex img {
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+ border-radius: 5px;
 }
-
-
-.btn {
-  font-size: 1rem;
-  padding: 15px 30px;
-  background-color: #d78cec;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  background-color: #caa0d9;
-  transform: scale(1.05);
-}
-
-
-@media (max-width: 768px) {
-  .landing-logo {
-    width: 150px;
-    height: 150px;
-  }
-
-  .landing-title {
-    font-size: 2rem;
-  }
-
-  .btn {
-    font-size: 0.9rem;
-    padding: 10px 20px;
-  }
+.flex-col {
+  width: 50%;
 }
