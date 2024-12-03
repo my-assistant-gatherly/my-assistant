@@ -3,6 +3,83 @@ const pool = require('../modules/pool');
 
 const router = express.Router();
 
+// Get upcoming events for the homepage
+router.get('/upcoming', async (req, res) => {
+  try {
+    console.log('Fetching upcoming events...'); // Debug log
+    const query = `
+      SELECT 
+        e.id,
+        e.event_title as title,
+        e.start_date as date,
+        e.description,
+        e.location,
+        e.start_time as time
+      FROM "events" e
+      WHERE e.start_date >= CURRENT_DATE
+      AND e.owner_id = $1
+      ORDER BY e.start_date ASC, e.start_time ASC
+      LIMIT 3;
+    `;
+    
+    const result = await pool.query(query, [req.user.id]);
+    console.log('Upcoming events result:', result.rows); // Debug log
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching upcoming events:', error);
+    res.status(500).json({ error: 'Failed to fetch upcoming events' });
+  }
+});
+
+// Get reminders for the homepage
+router.get('/reminders', async (req, res) => {
+  try {
+    console.log('Fetching reminders...'); // Debug log
+    const query = `
+      SELECT 
+        t.id,
+        t.task as text
+      FROM "tasks_events" t
+      JOIN "events" e ON t.event_id = e.id
+      WHERE e.start_date >= CURRENT_DATE
+      AND e.owner_id = $1
+      ORDER BY e.start_date ASC
+      LIMIT 5;
+    `;
+    
+    const result = await pool.query(query, [req.user.id]);
+    console.log('Reminders result:', result.rows); // Debug log
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching reminders:', error);
+    res.status(500).json({ error: 'Failed to fetch reminders' });
+  }
+});
+
+// Get agenda items for the homepage
+router.get('/agenda', async (req, res) => {
+  try {
+    console.log('Fetching agenda...'); // Debug log
+    const query = `
+      SELECT 
+        e.id,
+        e.start_time as time,
+        e.event_title as text
+      FROM "events" e
+      WHERE e.start_date = CURRENT_DATE
+      AND e.owner_id = $1
+      ORDER BY e.start_time ASC;
+    `;
+    
+    const result = await pool.query(query, [req.user.id]);
+    console.log('Agenda result:', result.rows); // Debug log
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching agenda:', error);
+    res.status(500).json({ error: 'Failed to fetch agenda' });
+  }
+});
+
 router.post('/', async (req, res) => {
     const { user_id, event_title, start_date, end_date, start_time, end_time, duration, location, description, is_public, notes, tasks, invitedUsers  } = req.body;
 
@@ -104,36 +181,6 @@ router.get('/details/:id', async (req, res) => {
     } catch (error) {
         console.error('Error in GET /details/:id:', error);
         res.status(500).json({ error: 'Failed to fetch event details' });
-    }
-});
-
-// Get events for a user
-router.get('/:user_id', async (req, res) => {
-    try {
-        const userId = req.params.user_id;
-        const query = `
-            SELECT 
-                e.*,
-                CASE 
-                    WHEN e.owner_id != $1 AND e.is_public = true 
-                    THEN json_build_object(
-                        'username', u.username, 
-                        'id', u.id,
-                        'fullname', u.fullname
-                    )
-                    ELSE NULL 
-                END as creator
-            FROM "events" e
-            LEFT JOIN "user" u ON e.owner_id = u.id
-            WHERE e.is_public = true 
-            OR e.owner_id = $1
-            ORDER BY e.start_date ASC, e.start_time ASC;
-        `;
-        const result = await pool.query(query, [userId]);
-        res.status(200).json(result.rows);
-    } catch (error) {
-        console.error('Error in GET /:user_id:', error);
-        res.status(500).send('Internal Server Error');
     }
 });
 
@@ -273,6 +320,36 @@ router.put('/:id', async (req, res) => {
     console.error('Error updating event:', error);
     res.status(500).json({ error: 'Failed to update event' });
   }
+});
+
+// Get events for a user
+router.get('/:user_id', async (req, res) => {
+    try {
+        const userId = req.params.user_id;
+        const query = `
+            SELECT 
+                e.*,
+                CASE 
+                    WHEN e.owner_id != $1 AND e.is_public = true 
+                    THEN json_build_object(
+                        'username', u.username, 
+                        'id', u.id,
+                        'fullname', u.fullname
+                    )
+                    ELSE NULL 
+                END as creator
+            FROM "events" e
+            LEFT JOIN "user" u ON e.owner_id = u.id
+            WHERE e.is_public = true 
+            OR e.owner_id = $1
+            ORDER BY e.start_date ASC, e.start_time ASC;
+        `;
+        const result = await pool.query(query, [userId]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error in GET /:user_id:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 module.exports = router;
