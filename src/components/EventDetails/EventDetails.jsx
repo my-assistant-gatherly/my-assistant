@@ -31,6 +31,7 @@ import {
   Cancel,
   Public,
   Lock,
+  Delete as DeleteIcon,
 } from '@mui/icons-material';
 
 function EventDetails() {
@@ -43,6 +44,7 @@ function EventDetails() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedEvent, setEditedEvent] = useState(null);
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     fetchUser();
@@ -123,6 +125,23 @@ function EventDetails() {
       console.error('Error updating event:', err);
     } finally {
       setUpdateLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this event? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      setDeleteLoading(true);
+      await axios.delete(`/api/events/${id}`);
+      history.push('/events'); // Redirect to events list after successful deletion
+    } catch (err) {
+      setError('Failed to delete event. Please try again.');
+      console.error('Error deleting event:', err);
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -518,57 +537,83 @@ function EventDetails() {
           )}
         </Paper>
 
-        {/* Floating Edit/Save Button */}
-        {user && event && user.id === event.owner_id && (
-          <Fab
-            color="primary"
-            aria-label={isEditing ? "save" : "edit"}
-            onClick={isEditing ? handleUpdate : handleEditToggle}
-            disabled={updateLoading}
-            sx={{
-              position: 'fixed',
-              bottom: 32,
-              right: 32,
-              background: isEditing 
-                ? 'linear-gradient(45deg, #4CAF50 30%, #81C784 90%)'
-                : 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-              '&:hover': {
-                background: isEditing
-                  ? 'linear-gradient(45deg, #388E3C 30%, #66BB6A 90%)'
-                  : 'linear-gradient(45deg, #1976D2 30%, #1CA7E3 90%)',
-              },
-              boxShadow: '0 3px 5px 2px rgba(33, 150, 243, .3)',
-            }}
-          >
-            {updateLoading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : isEditing ? (
-              <Save />
+        {/* Action Buttons */}
+        {user && event.owner_id === user.id && (
+          <Box sx={{ 
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: 1,
+            mt: -3,
+            mr: 2,
+            position: 'relative',
+            zIndex: 1
+          }}>
+            {isEditing ? (
+              <>
+                <Fab
+                  size="small"
+                  color="primary"
+                  onClick={handleUpdate}
+                  disabled={updateLoading}
+                  sx={{
+                    background: 'linear-gradient(45deg, #4CAF50 30%, #81C784 90%)',
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #388E3C 30%, #66BB6A 90%)',
+                    },
+                    boxShadow: '0 3px 5px 2px rgba(33, 150, 243, .3)',
+                  }}
+                >
+                  <Save />
+                </Fab>
+                <Fab
+                  size="small"
+                  color="secondary"
+                  onClick={handleEditToggle}
+                  sx={{
+                    background: 'linear-gradient(45deg, #FF5252 30%, #FF8A80 90%)',
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #D32F2F 30%, #FF5252 90%)',
+                    },
+                    boxShadow: '0 3px 5px 2px rgba(255, 82, 82, .3)',
+                  }}
+                >
+                  <Cancel />
+                </Fab>
+              </>
             ) : (
-              <Edit />
+              <>
+                <Fab
+                  size="small"
+                  color="primary"
+                  onClick={handleEditToggle}
+                  sx={{
+                    background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #1976D2 30%, #1CA7E3 90%)',
+                    },
+                    boxShadow: '0 3px 5px 2px rgba(33, 150, 243, .3)',
+                  }}
+                >
+                  <Edit />
+                </Fab>
+                <Fab
+                  size="small"
+                  color="error"
+                  onClick={handleDelete}
+                  disabled={deleteLoading}
+                  sx={{
+                    background: 'linear-gradient(45deg, #FF5252 30%, #FF8A80 90%)',
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #D32F2F 30%, #FF5252 90%)',
+                    },
+                    boxShadow: '0 3px 5px 2px rgba(255, 82, 82, .3)',
+                  }}
+                >
+                  <DeleteIcon />
+                </Fab>
+              </>
             )}
-          </Fab>
-        )}
-
-        {/* Cancel Edit Button */}
-        {isEditing && (
-          <Fab
-            color="secondary"
-            aria-label="cancel"
-            onClick={handleEditToggle}
-            sx={{
-              position: 'fixed',
-              bottom: 32,
-              right: 100,
-              background: 'linear-gradient(45deg, #FF5252 30%, #FF8A80 90%)',
-              '&:hover': {
-                background: 'linear-gradient(45deg, #D32F2F 30%, #FF5252 90%)',
-              },
-              boxShadow: '0 3px 5px 2px rgba(255, 82, 82, .3)',
-            }}
-          >
-            <Cancel />
-          </Fab>
+          </Box>
         )}
       </Container>
     </Box>
