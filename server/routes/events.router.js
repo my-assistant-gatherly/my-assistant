@@ -178,4 +178,101 @@ router.put('/:id/like', async (req, res) => {
   }
 });
 
+// Update event
+router.put('/:id', async (req, res) => {
+  const eventId = req.params.id;
+  const { event_title, start_date, end_date, start_time, end_time, duration, location, description, is_public, notes, tasks } = req.body;
+
+  try {
+    // Update main event details
+    const eventQuery = `
+      UPDATE "events"
+      SET "event_title" = $1,
+          "start_date" = $2,
+          "end_date" = $3,
+          "start_time" = $4,
+          "end_time" = $5,
+          "duration" = $6,
+          "location" = $7,
+          "description" = $8,
+          "is_public" = $9
+      WHERE "id" = $10
+      RETURNING *;
+    `;
+    const eventValues = [
+      event_title,
+      start_date,
+      end_date,
+      start_time,
+      end_time,
+      duration,
+      location,
+      description,
+      is_public,
+      eventId
+    ];
+
+    const result = await pool.query(eventQuery, eventValues);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    // Update tasks
+    if (tasks) {
+      // Delete existing tasks
+      await pool.query('DELETE FROM "tasks_events" WHERE "event_id" = $1', [eventId]);
+      
+      // Insert new tasks
+      const taskQuery = `
+        INSERT INTO "tasks_events" ("event_id", "task")
+        VALUES ($1, $2);
+      `;
+      for (let task of tasks) {
+        if (task.trim()) {
+          await pool.query(taskQuery, [eventId, task.trim()]);
+        }
+      }
+    }
+
+    // Update notes
+    if (notes) {
+      // Delete existing notes
+      await pool.query('DELETE FROM "notes_events" WHERE "event_id" = $1', [eventId]);
+      
+      // Insert new notes
+      const noteQuery = `
+        INSERT INTO "notes_events" ("event_id", "note")
+        VALUES ($1, $2);
+      `;
+      for (let note of notes) {
+        if (note.trim()) {
+          await pool.query(noteQuery, [eventId, note.trim()]);
+        }
+      }
+    }
+
+    // Fetch updated event with all details
+    const updatedEventQuery = `
+      SELECT 
+        e.*,
+        u.username as creator_name,
+        array_agg(DISTINCT t.task) FILTER (WHERE t.task IS NOT NULL) as tasks,
+        array_agg(DISTINCT n.note) FILTER (WHERE n.note IS NOT NULL) as notes
+      FROM "events" e
+      LEFT JOIN "user" u ON e.owner_id = u.id
+      LEFT JOIN "tasks_events" t ON e.id = t.event_id
+      LEFT JOIN "notes_events" n ON e.id = n.event_id
+      WHERE e.id = $1
+      GROUP BY e.id, u.username;
+    `;
+    const updatedEvent = await pool.query(updatedEventQuery, [eventId]);
+
+    res.json(updatedEvent.rows[0]);
+  } catch (error) {
+    console.error('Error updating event:', error);
+    res.status(500).json({ error: 'Failed to update event' });
+  }
+});
+
 module.exports = router;
