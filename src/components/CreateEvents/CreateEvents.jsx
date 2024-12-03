@@ -93,7 +93,7 @@ function CreateEventsPage() {
         invitedUsers: [],
       });
 
-      history.push('/my-events');
+      history.push('/events');
     } catch (error) {
       console.error('Error creating event:', error);
       alert('Failed to create event. Please try again.');
