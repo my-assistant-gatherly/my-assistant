@@ -35,14 +35,13 @@ function UserProfile() {
 
   const handleImageUpload = async () => {
     if (!newImage) return;
-  
+
     const formData = new FormData();
     formData.append('file', newImage);
-  
+    formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+
     try {
-      const response = await axios.post('/api/user/image/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      const response = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`, formData);
       setFormData({ ...formData, image_url: response.data.url });
     } catch (error) {
       console.error('Error uploading image:', error);

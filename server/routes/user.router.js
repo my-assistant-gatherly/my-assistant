@@ -56,33 +56,6 @@ router.post('/logout', (req, res, next) => {
     res.sendStatus(200);
   });
 });
-
-router.post('/image/upload', rejectUnauthenticated, async (req, res) => {
-  try {
-    if (!req.files || !req.files.file) { // Change this line to use req.files.file
-      return res.status(400).send('No file provided');
-    }
-
-    const file = req.files.file; // Use req.files.file instead of req.body.file
-    const formData = new FormData();
-    formData.append('file', file.data); // Use file.data to get the file buffer
-    formData.append('upload_preset', process.env.CLOUDINARY_UPLOAD_PRESET); // Ensure your .env has this key
-
-    const response = await axios.post(
-      `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`,
-      formData,
-      { headers: formData.getHeaders() }
-    );
-
-    // Send back the Cloudinary URL for the uploaded image
-    res.status(200).send({ url: response.data.secure_url });
-  } catch (err) {
-    console.error('Cloudinary Upload Error:', err);
-    res.status(500).send('Failed to upload image');
-  }
-});
-
-
 router.put('/', rejectUnauthenticated, async (req, res) => {
   const { fullname, user_title, skills, zip_code, image_url } = req.body;
   const userId = req.user.id;
@@ -101,7 +74,7 @@ router.put('/', rejectUnauthenticated, async (req, res) => {
 
   try {
     await pool.query
-    (queryText, [fullname, user_title, skills, zip_code, image_url, userId]);
+      (queryText, [fullname, user_title, skills, zip_code, image_url, userId]);
     res.sendStatus(200);
   } catch (err) {
     console.error('Error updating user profile:', err);
@@ -111,3 +84,33 @@ router.put('/', rejectUnauthenticated, async (req, res) => {
 
 
 module.exports = router;
+
+
+// router.put('/', rejectUnauthenticated, async (req, res) => {
+//   const { fullname, user_title, skills, zip_code, image_url } = req.body;
+//   const userId = req.user.id;
+
+//   const queryText = `
+//     UPDATE "user"
+//     SET 
+//       fullname = $1, 
+//       user_title = $2, 
+//       skills = $3, 
+//       zip_code = $4, 
+//       image_url = $5,
+//       updated_at = NOW()
+//     WHERE id = $6;
+//   `;
+
+//   try {
+//     await pool.query
+//     (queryText, [fullname, user_title, skills, zip_code, image_url, userId]);
+//     res.sendStatus(200);
+//   } catch (err) {
+//     console.error('Error updating user profile:', err);
+//     res.sendStatus(500);
+//   }
+// });
+
+
+// module.exports = router;
