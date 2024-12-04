@@ -100,7 +100,8 @@ router.put('/', rejectUnauthenticated, async (req, res) => {
   `;
 
   try {
-    await pool.query(queryText, [fullname, user_title, skills, zip_code, image_url, userId]);
+    await pool.query
+    (queryText, [fullname, user_title, skills, zip_code, image_url, userId]);
     res.sendStatus(200);
   } catch (err) {
     console.error('Error updating user profile:', err);
