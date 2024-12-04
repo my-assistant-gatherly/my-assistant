@@ -202,6 +202,7 @@ function UserProfile() {
                 borderRadius: 2,
               }}
               onClick={() => window.history.back()}
+              // ck={() => window.history()}
             >
               Back
             </Button>
