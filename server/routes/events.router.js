@@ -246,6 +246,7 @@ router.put('/:id', async (req, res) => {
       WHERE "id" = $10
       RETURNING *;
     `;
+    
     const eventValues = [
       event_title,
       start_date,
