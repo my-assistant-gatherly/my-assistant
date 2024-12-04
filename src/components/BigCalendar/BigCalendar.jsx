@@ -103,12 +103,21 @@ export default function BigCalendar() {
           >
             Month
           </button>
+        
           <button 
-            className={`view-button ${view === 'agenda' ? 'active' : ''}`}
-            onClick={() => setView('agenda')}
+            className={`view-button ${view === 'day' ? 'active' : ''}`}
+            onClick={() => setView('day')}
           >
-            Agenda
+            Day
           </button>
+
+          <button 
+            className={`view-button ${view === 'week' ? 'active' : ''}`}
+            onClick={() => setView('week')}
+          >
+            Week
+          </button>
+
         </div>
       </div>
 
@@ -118,7 +127,7 @@ export default function BigCalendar() {
         defaultDate={new Date()}
         view={view}
         onView={setView}
-        views={['month', 'agenda']}
+        views={['month', 'day', 'week']}
         style={customStyles}
         toolbar={true}
         components={{
