@@ -93,7 +93,7 @@ function UserProfile() {
     <Container maxWidth="sm" sx={{ marginTop: 5 }}>
       <Paper elevation={3} sx={{ padding: 4, borderRadius: 3 }}>
         <Typography variant="h4" align="center" sx={{ marginBottom: 3 }}>
-          User Profile
+             User Profile
         </Typography>
         <form onSubmit={handleSubmit}>
           {/* Profile Picture Section */}
@@ -120,7 +120,7 @@ function UserProfile() {
               className="upload-button"
               sx={{ marginTop: 2 }}
             >
-              Upload New Picture
+                  Upload New Picture
               <input
                 type="file"
                 hidden
