@@ -104,6 +104,21 @@ function CreateEventsPage() {
     }
   };
 
+  const demoData = (e) => {setEventData ({
+    title: 'Game Night',
+    start_date: '2024-12-14',
+    end_date: '2024-12-14',
+    start_time: '16:00:00',
+    end_time: '19:00:00',
+    duration:'3',
+    location: 'Maplewood Lane Community Center',
+    description: 'Game night is open to all community members of Maplewood Lane. This is a family friendly event so bring the kids!',
+    notes: 'Games to bring: Charades, Uno, HeadsUp, Trivia Night, Bingo, Chess, Checkers, and VR Headset for Escape Room fun!',
+    tasks: '1) Reserve community center. 2) Check food allergies of guests. 3) Send RSVPs. 4) Connect with Ben about helping to set up.'
+  })
+
+  }
+
   return (
     <Container maxWidth="lg" sx={{ py: 4, mt: 7}}>
     <form className="CE_form" onSubmit={handleSubmit}>
@@ -111,7 +126,7 @@ function CreateEventsPage() {
 
         <Paper elevation={3} sx={{ p: 3, mb: 4, borderRadius: 2, background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>
         <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ color: 'white', fontWeight: 'bold'}}>
-          Create New Event
+          <span onClick={demoData}>Create New Event</span>
         </Typography>
       </Paper>
 
@@ -175,7 +190,7 @@ function CreateEventsPage() {
           </div>
         </div>
 
-        Duration
+        Duration (in hours)
         <input
           type="number"
           name="duration"
