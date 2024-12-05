@@ -71,7 +71,7 @@ function UserProfile() {
       <form onSubmit={handleSubmit}>
         <div className="profile-pic-container">
           <img
-            src={formData.image_url || '/default-profile.png'} // I will select a Default profile picture
+            src={formData.image_url || '/Images/userAvatar.png'}
             alt="Profile"
             className="profile-pic"
           />
