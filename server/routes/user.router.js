@@ -76,5 +76,61 @@ router.post('/logout', (req, res, next) => {
     res.sendStatus(200);
   });
 });
+router.put('/', rejectUnauthenticated, async (req, res) => {
+  const { fullname, user_title, skills, zip_code, image_url } = req.body;
+  const userId = req.user.id;
+
+  const queryText = `
+    UPDATE "user"
+    SET 
+      fullname = $1, 
+      user_title = $2, 
+      skills = $3, 
+      zip_code = $4, 
+      image_url = $5,
+      updated_at = NOW()
+    WHERE id = $6;
+  `;
+
+  try {
+    await pool.query
+      (queryText, [fullname, user_title, skills, zip_code, image_url, userId]);
+    res.sendStatus(200);
+  } catch (err) {
+    console.error('Error updating user profile:', err);
+    res.sendStatus(500);
+  }
+});
+
 
 module.exports = router;
+
+
+// router.put('/', rejectUnauthenticated, async (req, res) => {
+//   const { fullname, user_title, skills, zip_code, image_url } = req.body;
+//   const userId = req.user.id;
+
+//   const queryText = `
+//     UPDATE "user"
+//     SET 
+//       fullname = $1, 
+//       user_title = $2, 
+//       skills = $3, 
+//       zip_code = $4, 
+//       image_url = $5,
+//       updated_at = NOW()
+//     WHERE id = $6;
+//   `;
+
+//   try {
+//     await pool.query
+//     (queryText, [fullname, user_title, skills, zip_code, image_url, userId]);
+//     res.sendStatus(200);
+//   } catch (err) {
+//     console.error('Error updating user profile:', err);
+//     res.sendStatus(500);
+//   }
+// });
+
+
+// module.exports = router;

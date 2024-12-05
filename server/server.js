@@ -8,6 +8,7 @@ const sessionMiddleware = require('./modules/session-middleware');
 const passport = require('./strategies/user.strategy');
 const fileUpload = require('express-fileupload');
 
+
 // Route Includes
 const userRouter = require('./routes/user.router');
 const eventsRouter = require('./routes/events.router');
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('build'));
 app.use(fileUpload());
+
 
 // Passport Session Configuration
 app.use(sessionMiddleware);
