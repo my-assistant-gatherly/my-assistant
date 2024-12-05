@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import './CreateEvents.css'
+import './CreateEvents.css';
+import { Container, Typography, Paper } from '@mui/material';
 
 function CreateEventsPage() {
   const history = useHistory();
@@ -104,9 +105,15 @@ function CreateEventsPage() {
   };
 
   return (
+    <Container maxWidth="lg" sx={{ py: 4, mt: 7}}>
     <form className="CE_form" onSubmit={handleSubmit}>
       <div className="CE_container">
-        <h1 className="CE_p">Create New Event 📅</h1>
+
+        <Paper elevation={3} sx={{ p: 3, mb: 4, borderRadius: 2, background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>
+        <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ color: 'white', fontWeight: 'bold'}}>
+          Create New Event
+        </Typography>
+      </Paper>
 
         Event Title
         <input
@@ -284,6 +291,7 @@ function CreateEventsPage() {
 
       </div>
     </form>
+    </Container>
   );
 }
 
