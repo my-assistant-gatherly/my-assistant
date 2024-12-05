@@ -1,53 +1,121 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
+import axios from 'axios';
+import './CreateEvents.css';
+import { Container, Typography, Paper } from '@mui/material';
 
 function CreateEventsPage() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const userId = useSelector(state => state.user.id);
 
   const [eventData, setEventData] = useState({
-    title: "",
-    date: "",
-    time: "",
-    duration: "",
-    location: "",
-    description: "",
-    notes: "",
-    tasks: "",
-    isPrivate: true,
+    invitedUsers: [],
   });
-
-  const history = useHistory();
+  const [userSuggestions, setUserSuggestions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Event Data:", eventData);
-    alert("Your Event Created Successfully 🎉")
-    setEventData({
-      title: "",
-      date: "",
-      time: "",
-      duration: "",
-      location: "",
-      description: "",
-      notes: "",
-      tasks: "",
-      isPrivate: true,
-    });
+  const handleCancel = (e) => {
+    history.push('./events')
+  }
 
-    history.push('/my-events')
+  const handleSearchChange = async (e) => {
+    const query = e.target.value;
+    setSearchTerm(query);
+
+    if (query.length > 1) {
+      try {
+        const response = await axios.get(`/api/user/search?query=${query}`);
+        setUserSuggestions(response.data);
+      } catch (error) {
+        console.error('Error fetching user suggestions:', error);
+      }
+    } else {
+      setUserSuggestions([]);
+    }
+  };
+
+  const handleSelectUser = (user) => {
+    if (!eventData.invitedUsers.find((u) => u.id === user.id)) {
+      setEventData({
+        ...eventData,
+        invitedUsers: [...eventData.invitedUsers, user],
+      });
+    }
+    setSearchTerm('');
+    setUserSuggestions([]);
+  };
+
+  const handleRemoveUser = (userId) => {
+    setEventData({
+      ...eventData,
+      invitedUsers: eventData.invitedUsers.filter((user) => user.id !== userId),
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { title, start_date, end_date, start_time, end_time, duration, location, description, isPrivate, notes, tasks, invitedUsers } = eventData;
+
+    if (!title || !start_date || !end_date || !start_time || !end_time || !location) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    dispatch({ type: 'SET_LOADING', payload: true });
+
+    try {
+      const response = await axios.post('/api/events', {
+        user_id: userId,
+        event_title: title,
+        start_date,
+        end_date,
+        start_time: `${start_time}:00`,
+        end_time,
+        location,
+        duration: duration || null,
+        description,
+        is_public: !isPrivate,
+        notes: notes || '',
+        tasks: tasks || '',
+        invitedUsers: isPrivate ? invitedUsers : [],
+      });
+
+      dispatch({ type: 'SET_EVENT', payload: response.data });
+      alert('Event Created Successfully 🎉');
+
+      setEventData({
+        invitedUsers: [],
+      });
+
+      history.push('/events');
+    } catch (error) {
+      console.error('Error creating event:', error);
+      alert('Failed to create event. Please try again.');
+      dispatch({ type: 'SET_ERROR', payload: 'Failed to create event.' });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
   };
 
   return (
+    <Container maxWidth="lg" sx={{ py: 4, mt: 7}}>
     <form className="CE_form" onSubmit={handleSubmit}>
       <div className="CE_container">
-        <p className="CE_p">Create New Event</p>
 
+        <Paper elevation={3} sx={{ p: 3, mb: 4, borderRadius: 2, background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>
+        <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ color: 'white', fontWeight: 'bold'}}>
+          Create New Event
+        </Typography>
+      </Paper>
+
+        Event Title
         <input
           type="text"
           name="title"
@@ -57,35 +125,68 @@ function CreateEventsPage() {
           required
         />
 
-        <input
-          type="date"
-          name="date"
-          placeholder="Event Date"
-          value={eventData.date}
-          onChange={handleChange}
-          required
-        />
+        <div className="CE_row">
+          <div>
+            Start Date
+            <input
+              type="date"
+              name="start_date"
+              placeholder="Event Date"
+              value={eventData.start_date}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            End Date
+            <input
+              type="date"
+              name="end_date"
+              placeholder="Event Date"
+              value={eventData.end_date}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
 
-        <input
-          type="time"
-          name="time"
-          placeholder="Event Time"
-          value={eventData.time}
-          onChange={handleChange}
-          required
-        />
+        <div className="CE_row">
+          <div>
+            Start Time
+            <input
+              type="time"
+              name="start_time"
+              placeholder="Event Time"
+              value={eventData.start_time}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            End Time
+            <input
+              type="time"
+              name="end_time"
+              placeholder="Event Time"
+              value={eventData.end_time}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
 
+        Duration
         <input
           type="number"
           name="duration"
-          placeholder="Event Duration (Hours)"
+          placeholder="Event Duration in Hours (optional)"
           value={eventData.duration}
           onChange={handleChange}
           step="0.5"
           min="0"
-          required
         />
 
+        Location
         <input
           type="text"
           name="location"
@@ -97,49 +198,86 @@ function CreateEventsPage() {
 
         <br />
 
-        <textarea
+        Description<textarea
           name="description"
-          placeholder="Description"
+          placeholder="Enter Description Here"
           value={eventData.description}
           onChange={handleChange}
         />
         <br />
-        <textarea
+        Notes<textarea
           name="notes"
-          placeholder="Notes"
+          placeholder="Add Notes Here"
           value={eventData.notes}
           onChange={handleChange}
         />
         <br />
-        <textarea
+        Tasks<textarea
           name="tasks"
-          placeholder="Tasks"
+          placeholder="Enter Tasks Here"
           value={eventData.tasks}
           onChange={handleChange}
         />
-
         <br />
 
         <div>
           <input
             type="radio"
             name="isPrivate"
-            value="true"
+            value={true}
             checked={eventData.isPrivate === true}
             onChange={() => setEventData({ ...eventData, isPrivate: true })}
           />
-          <label>Private</label>
+          <label>Private </label>
 
           <input
             type="radio"
             name="isPrivate"
-            value="false"
+            value={false}
             checked={eventData.isPrivate === false}
             onChange={() => setEventData({ ...eventData, isPrivate: false })}
           />
           <label>Public</label>
+
+          {eventData.isPrivate && (
+            <p style={{ color: 'red', marginTop: '10px' }}>
+              Be sure to add your own name below as an invited user to events marked private.
+            </p>
+          )}
         </div>
 
+        {eventData.isPrivate && (
+          <div>
+            <input
+              type="text"
+              placeholder="Invite Users"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            {userSuggestions.length > 0 && (
+              <ul>
+                {userSuggestions.map((user) => (
+                  <li key={user.id} onClick={() => handleSelectUser(user)}>
+                    {user.fullname}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div>
+              {eventData.invitedUsers.map((user) => (
+                <div key={user.id}>
+                  {user.fullname}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveUser(user.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <br />
 
@@ -147,8 +285,13 @@ function CreateEventsPage() {
           type="submit"
         > Save</button>
 
+        <button onClick={handleCancel}
+          type="submit"
+        > Cancel</button>
+
       </div>
     </form>
+    </Container>
   );
 }
 

@@ -1,47 +1,145 @@
 // React Big Calendar does not handle timezones.
 // It does support using your choice of libraries specifically built to help with timezones.
 // In this example, I'm setting up "moment.js" as the "localizer" to deal with timezones.
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
+import moment from 'moment';
+import { useEffect, useState} from 'react';
+import { useSelector, useDispatch} from 'react-redux';
+import axios from 'axios';
 
 // This is some "default css" that they offer.
 // You can override it to make it your own.
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import './BigCalendar.css';
 
 // This is the line that tells React Big Calendar to use Moment.js for timezone stuff.
 const localizer = momentLocalizer(moment)
 
 export default function BigCalendar() {
+  const [myEventsData, setMyEventsData] = useState([]);
+  const [formattedEvents, setFormattedEvents] = useState([]);
+  const [view, setView] = useState('month');
 
-  // I need some stuff to put on my calendar.
-  // Details on what properties an event object supports: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/props--events
-  let myEventsList = [
-    {
-      start: moment().toDate(),
-      end: moment()
-        .add(1, "days")
-        .toDate(),
-      title: "Some title"
+  const formatEventData = (eventData) => {
+    return eventData.map(event => {
+      const startDateTime = moment(event.start_date).add(event.start_time, 'hours');
+      const endDateTime = moment(event.end_date).add(event.end_time, 'hours');
+      
+      return {
+        title: event.event_title,
+        start: startDateTime.toDate(),
+        end: endDateTime.toDate(),
+        allDay: false, // Setting this to false ensures time is displayed
+        desc: `${startDateTime.format('h:mm A')} - ${endDateTime.format('h:mm A')}` // Adding formatted time to description
+      };
+    });
+  };
+
+  const userId = useSelector(state => state.user.id);
+  
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(`/api/events/${userId}`);
+        setMyEventsData(response.data);
+        const formatted = formatEventData(response.data);
+        setFormattedEvents(formatted);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+  
+    fetchEvents();
+  }, [userId]);
+
+  const customStyles = {
+    height: '100%',
+    backgroundColor: '#ffffff',
+    borderRadius: '10px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+  };
+
+  const formats = {
+    agendaTimeFormat: 'h:mm A', // Format for the time display
+    agendaTimeRangeFormat: ({ start, end }) => {
+      return `${moment(start).format('h:mm A')} - ${moment(end).format('h:mm A')}`;
     }
-  ];
+  };
+
+  function CustomToolbar(toolbar) {
+    const goToBack = () => {
+      toolbar.onNavigate('PREV');
+    };
+
+    const goToNext = () => {
+      toolbar.onNavigate('NEXT');
+    };
+
+    const goToCurrent = () => {
+      toolbar.onNavigate('TODAY');
+    };
+
+    return (
+      <div className="rbc-toolbar">
+        <span className="rbc-btn-group">
+          <button type="button" onClick={goToBack}>&lt;</button>
+          <button type="button" onClick={goToCurrent}>Today</button>
+          <button type="button" onClick={goToNext}>&gt;</button>
+        </span>
+        <span className="rbc-toolbar-label">{toolbar.label}</span>
+        <span className="rbc-btn-group"></span>
+      </div>
+    );
+  }
 
   return (
+    <div className="calendar-container">
+      <div className="calendar-header">
+        <h2>Calendar</h2>
+        <div className="view-toggle">
+          <button 
+            className={`view-button ${view === 'month' ? 'active' : ''}`}
+            onClick={() => setView('month')}
+          >
+            Month
+          </button>
+        
+          <button 
+            className={`view-button ${view === 'day' ? 'active' : ''}`}
+            onClick={() => setView('day')}
+          >
+            Day
+          </button>
 
-    // Anywhere I want a calendar, I use the <Calendar> component.
-    // I can pass it props to customize it.
-    // Full list of props and what they do: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/props-full-prop-list--page
-    <Calendar
-      localizer={localizer}
-      defaultDate={new Date()}
-      // You can change the default view, based on which of these options you choose:
-      // defaultView="agenda"
-      defaultView="month"
-      // defaultView="week"
-      // defaultView="work_week"
-      // defaultView="day"
-      events={myEventsList}
-      style={{ height: "100vh" }}
-    />
+          <button 
+            className={`view-button ${view === 'week' ? 'active' : ''}`}
+            onClick={() => setView('week')}
+          >
+            Week
+          </button>
+
+        </div>
+      </div>
+
+      <Calendar
+        localizer={localizer}
+        events={formattedEvents}
+        defaultDate={new Date()}
+        view={view}
+        onView={setView}
+        views={['month', 'day', 'week']}
+        style={customStyles}
+        toolbar={true}
+        components={{
+          toolbar: CustomToolbar
+        }}
+        formats={formats}
+        popup
+        selectable
+        eventPropGetter={(event) => ({
+          className: 'calendar-event',
+        })}
+      />
+    </div>
   );
-
 }
