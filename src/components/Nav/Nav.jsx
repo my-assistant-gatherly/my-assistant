@@ -74,6 +74,7 @@ function Nav() {
               </Link>
 
               <LogOutButton className="navLink"/>
+              
             </>
           )}
 
