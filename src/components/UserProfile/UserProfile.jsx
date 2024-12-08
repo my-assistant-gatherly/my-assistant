@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import './UserProfile.css';
+
 import {
   Container,
   Typography,
@@ -107,20 +109,25 @@ function UserProfile() {
               src={formData.image_url || '/Images/11539820.png'} // Default profile picture
               alt="Profile Picture"
               sx={{
-                width: 120, // Adjust size as needed
-                height: 120,
+                width: 130, // Adjust size as needed
+                height: 125,
                 borderRadius: '50%', // Ensures circular borders
                 border: '3px solid #ccc', // Optional: adds a border around the avatar
                 boxShadow: 3,
+                marginBottom: 2,
               }}
             />
             <Button
-              variant="contained"
-              component="label"
-              className="upload-button"
-              sx={{ marginTop: 2 }}
+      variant="contained"
+      component="label"
+      sx={{
+       fontSize: '0.8rem', // Smaller font size
+        padding: '2px 10px', // Adjust padding for a smaller button
+        borderRadius: 4, // Optional: Keep rounded corners smaller
+        gap: 20,
+        }}
             >
-                  Upload New Picture
+                  Upload New Profile Picture
               <input
                 type="file"
                 hidden
@@ -175,31 +182,31 @@ function UserProfile() {
           </Grid>
 
           {/* Action Buttons */}
-          <Box display="flex" justifyContent="space-between" marginTop={3}>
+          <Box display="flex" justifyContent="space-between" marginTop={3}  gap={2}>
             <Button
               type="submit"
               variant="contained"
               color="primary"
               className="save-button"
               sx={{
-                paddingX: 3,
+                paddingX: 2,
                 paddingY: 1,
-                borderRadius: 2,
+                borderRadius: 3,
               }}
             >
-              Save
+              Update
             </Button>
             <Button
               variant="outlined"
               color="secondary"
               className="back-button"
               sx={{
-                paddingX: 3,
-                paddingY: 2,
+                paddingX: 2,
+                paddingY: 1,
                 // paddingZ 1,
                 // paddingZ 1,
     
-                borderRadius: 2,
+                borderRadius: 3,
               }}
               onClick={() => window.history.back()}
               // ck={() => window.history()}
