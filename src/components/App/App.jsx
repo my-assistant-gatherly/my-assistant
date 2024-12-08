@@ -17,7 +17,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import BigCalendar from '../BigCalendar/BigCalendar';
 import EventDetails from '../EventDetails/EventDetails';
-import EditEvents from '../EditEvents/EditEvents'; // Import EditEvents component
+
 
 import './App.css';
 
@@ -67,10 +67,6 @@ function App() {
 
           <ProtectedRoute exact path="/user-profile">
             <UserProfile />
-          </ProtectedRoute>
-
-          <ProtectedRoute exact path="/edit-events">
-            <EditEvents />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/calendar">
