@@ -145,9 +145,9 @@ export default function BigCalendar() {
         formats={formats}
         popup
         selectable
-        eventPropGetter={(event) => ({
-          className: 'calendar-event',
-        })}
+        // eventPropGetter={(event) => ({
+        //   className: 'calendar-event',
+        // })}
         //style={{ height: 500, width: 700 }}
       />
     </div>
