@@ -10,12 +10,12 @@ import axios from 'axios';
 // This is some "default css" that they offer.
 // You can override it to make it your own.
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import './BigCalendar.css';
+//import './BigCalendar.css';
 
 // This is the line that tells React Big Calendar to use Moment.js for timezone stuff.
 const localizer = momentLocalizer(moment)
 
-export default function BigCalendar() {
+export default function Agenda() {
   const [myEventsData, setMyEventsData] = useState([]);
   const [formattedEvents, setFormattedEvents] = useState([]);
   const [view, setView] = useState('month');
@@ -52,13 +52,13 @@ export default function BigCalendar() {
     fetchEvents();
   }, [userId]);
 
-  const customStyles = {
-    height: '100%',
-    backgroundColor: '#ffffff',
-    borderRadius: '10px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+//   const customStyles = {
+//     height: '100%',
+//     backgroundColor: '#ffffff',
+//     borderRadius: '10px',
+//     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
   
-  };
+//   };
 
   const formats = {
     agendaTimeFormat: 'h:mm A', // Format for the time display
@@ -98,7 +98,7 @@ export default function BigCalendar() {
       <div className="calendar-header">
         <h2>Calendar</h2>
         <div className="view-toggle">
-          <button 
+          {/* <button 
             className={`view-button ${view === 'month' ? 'active' : ''}`}
             onClick={() => setView('month')}
           >
@@ -117,7 +117,7 @@ export default function BigCalendar() {
             onClick={() => setView('week')}
           >
             Week
-          </button>
+          </button> */}
 
           <button 
             className={`view-button ${view === 'agenda' ? 'active' : ''}`}
@@ -135,8 +135,8 @@ export default function BigCalendar() {
         defaultDate={new Date()}
         view={view}
         onView={setView}
-        views={['month', 'day', 'week', 'agenda']}
-        style={customStyles,
+        views={[ 'agenda']}
+        style={
         {height: 500,
           width: 600}
          }

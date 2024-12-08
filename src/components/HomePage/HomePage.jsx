@@ -31,6 +31,10 @@ import {
   AccessTimeFilled as DurationIcon
 } from '@mui/icons-material';
 
+
+
+//import Agenda from '../Agenda/Agenda';
+
 function HomePage() {
   // Theme and state management
   const theme = useTheme();
@@ -508,58 +512,12 @@ function HomePage() {
                 }}
               >
                 <TodayIcon color="primary" />
-                Today's Agenda
+               Padee testing
+
               </Typography>
-              <List sx={{ p: 0 }}>
-                {agenda && agenda.length > 0 ? (
-                  agenda.map((item, index) => (
-                    <React.Fragment key={item.id}>
-                      <ListItem 
-                        sx={{ 
-                          px: 0,
-                          '&:hover': {
-                            backgroundColor: theme.palette.grey[50]
-                          }
-                        }}
-                      >
-                        <ListItemIcon>
-                          <Chip
-                            label={formatTime(item.time)}
-                            size="small"
-                            sx={{ 
-                              backgroundColor: theme.palette.primary.light,
-                              color: theme.palette.primary.main,
-                              fontWeight: 500,
-                              minWidth: 80
-                            }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText 
-                          primary={item.text}
-                          primaryTypographyProps={{
-                            sx: { 
-                              fontWeight: 500,
-                              color: theme.palette.text.primary
-                            }
-                          }}
-                        />
-                      </ListItem>
-                      {index < agenda.length - 1 && (
-                        <Divider variant="inset" component="li" />
-                      )}
-                    </React.Fragment>
-                  ))
-                ) : (
-                  <ListItem sx={{ px: 0 }}>
-                    <ListItemText 
-                      primary="No agenda items for today"
-                      primaryTypographyProps={{
-                        sx: { color: theme.palette.text.secondary }
-                      }}
-                    />
-                  </ListItem>
-                )}
-              </List>
+             
+                    
+             
             </Paper>
           </Grid>
         </Grid>
