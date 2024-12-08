@@ -136,9 +136,7 @@ export default function BigCalendar() {
         view={view}
         onView={setView}
         views={['month', 'day', 'week', 'agenda']}
-        style={customStyles,
-        {height: 500,
-          width: 600}
+        style={customStyles
          }
         toolbar={true}
         components={{

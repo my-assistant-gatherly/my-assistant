@@ -28,9 +28,10 @@ import {
   Description as DescriptionIcon,
   Place as PlaceIcon,
   CalendarMonth as CalendarIcon,
-  AccessTimeFilled as DurationIcon
+  AccessTimeFilled as DurationIcon,
+  Today
 } from '@mui/icons-material';
-
+import BigCalendar from '../Agenda/Agenda';
 
 
 //import Agenda from '../Agenda/Agenda';
@@ -490,37 +491,42 @@ function HomePage() {
           </Grid>
 
           {/* Agenda Section */}
-          <Grid item xs={12} md={6}>
-            <Paper 
-              elevation={0}
-              sx={{ 
-                p: 3,
-                height: '100%',
-                borderRadius: 2,
-                border: `1px solid ${theme.palette.grey[200]}`
-              }}
-            >
-              <Typography 
-                variant="h5" 
-                gutterBottom 
-                sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: 1,
-                  fontWeight: 600,
-                  mb: 3
-                }}
-              >
-                <TodayIcon color="primary" />
-               Padee testing
-
-              </Typography>
-             
+       
+               {/* <BigCalendar/> */}
+  
+        
+               <Grid item xs={12} md={6}>
+    <Paper 
+      elevation={0}
+      sx={{ 
+        p: 3,
+        height: '100%',
+        borderRadius: 2,
+        border: `1px solid ${theme.palette.grey[200]}`
+      }}
+    >
+      <Typography 
+        variant="h5" 
+        gutterBottom 
+        sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 1,
+          fontWeight: 600,
+          mb: 3
+        }}
+      >
+       <Today color="primary"/>
+        Agenda
+      </Typography>
+      <Box> 
+        <BigCalendar />
+      </Box>
+    </Paper>
+  </Grid>
+</Grid>
                     
-             
-            </Paper>
-          </Grid>
-        </Grid>
+          
       </Container>
     </Fade>
   );
