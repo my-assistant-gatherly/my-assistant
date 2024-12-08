@@ -242,7 +242,7 @@ function HomePage() {
                       elevation={0}
                       sx={{ 
                         borderRadius: 2,
-                        border: `1px solid ${theme.palette.grey[200]}`,
+                        border: `3px solid ${theme.palette.grey[200]}`,
                         height: '100%',
                         display: 'flex',
                         flexDirection: 'column',
@@ -415,7 +415,7 @@ function HomePage() {
                 p: 3,
                 height: '100%',
                 borderRadius: 2,
-                border: `1px solid ${theme.palette.grey[200]}`
+                border: `3px solid ${theme.palette.grey[200]}`
               }}
             >
               <Typography 
@@ -493,7 +493,7 @@ function HomePage() {
                 p: 3,
                 height: '100%',
                 borderRadius: 2,
-                border: `1px solid ${theme.palette.grey[200]}`
+                border: `3px solid ${theme.palette.grey[200]}`
               }}
             >
               <Typography 
