@@ -10,7 +10,7 @@ import axios from 'axios';
 // This is some "default css" that they offer.
 // You can override it to make it your own.
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import './BigCalendar.css';
+//import './BigCalendar.css';
 
 // This is the line that tells React Big Calendar to use Moment.js for timezone stuff.
 const localizer = momentLocalizer(moment)
@@ -18,7 +18,7 @@ const localizer = momentLocalizer(moment)
 export default function BigCalendar() {
   const [myEventsData, setMyEventsData] = useState([]);
   const [formattedEvents, setFormattedEvents] = useState([]);
-  const [view, setView] = useState('month');
+  const [view, setView] = useState('agenda');
 
   const formatEventData = (eventData) => {
     return eventData.map(event => {
@@ -82,11 +82,11 @@ export default function BigCalendar() {
 
     return (
       <div className="rbc-toolbar">
-        <span className="rbc-btn-group">
+        {/* <span className="rbc-btn-group">
           <button type="button" onClick={goToBack}>&lt;</button>
           <button type="button" onClick={goToCurrent}>Today</button>
           <button type="button" onClick={goToNext}>&gt;</button>
-        </span>
+        </span> */}
         <span className="rbc-toolbar-label">{toolbar.label}</span>
         <span className="rbc-btn-group"></span>
       </div>
@@ -95,39 +95,39 @@ export default function BigCalendar() {
 
   return (
     <div className="calendar-container">
-      <div className="calendar-header">
-        <h2>Calendar</h2>
-        <div className="view-toggle">
-          <button 
+      {/* <div className="calendar-header"> */}
+        
+        {/* <div className="view-toggle">
+          {/* <button 
             className={`view-button ${view === 'month' ? 'active' : ''}`}
             onClick={() => setView('month')}
           >
             Month
           </button>
-        
-          <button 
+         */}
+          {/* <button 
             className={`view-button ${view === 'day' ? 'active' : ''}`}
             onClick={() => setView('day')}
           >
             Day
-          </button>
+          </button> */}
 
-          <button 
+          {/* <button 
             className={`view-button ${view === 'week' ? 'active' : ''}`}
             onClick={() => setView('week')}
           >
             Week
-          </button>
+          </button> */}
 
-          <button 
+          {/* <button 
             className={`view-button ${view === 'agenda' ? 'active' : ''}`}
             onClick={() => setView('agenda')}
           >
             Agenda
-          </button>
+          </button> */}
 
-        </div>
-      </div>
+        {/* </div> */}
+      {/* </div> */}
 
       <Calendar
         localizer={localizer}
@@ -135,12 +135,12 @@ export default function BigCalendar() {
         defaultDate={new Date()}
         view={view}
         onView={setView}
-        views={['month', 'day', 'week', 'agenda']}
-        style={customStyles
-         }
+        views={['agenda']}
+        style={{customStyles}, {height: 500,
+                width: 500}}
         toolbar={true}
         components={{
-          toolbar: CustomToolbar
+         toolbar: CustomToolbar
         }}
         formats={formats}
         popup
