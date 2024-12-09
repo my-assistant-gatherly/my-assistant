@@ -34,8 +34,8 @@ function Nav() {
 
   return (
     <div className="nav">
-      <div style={{ 
-        display: 'flex', 
+      <div style={{
+        display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
@@ -45,7 +45,7 @@ function Nav() {
           <h2 className="nav-title">My Assistant</h2>
         </Link>
 
-        <div style={{ 
+        <div style={{
           display: 'flex',
           alignItems: 'center',
           gap: '20px'
@@ -74,7 +74,7 @@ function Nav() {
               </Link>
 
               <LogOutButton className="navLink"/>
-              
+
             </>
           )}
 

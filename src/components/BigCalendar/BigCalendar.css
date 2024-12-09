@@ -1,9 +1,12 @@
 .calendar-container {
   padding: 20px;
-  height: calc(100vh - 180px); /* Adjusted to account for Nav bar */
-  margin-top: 80px; /* Add margin to avoid Nav bar overlap */
+  height: calc(100vh - 180px);
+  margin-top: 80px;
   overflow: hidden;
   position: relative;
+  background-color: #f5e9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(137, 23, 172, 0.2);
 }
 
 .calendar-header {
@@ -15,7 +18,7 @@
 
 .calendar-header h2 {
   margin: 0;
-  color: #333;
+  color: #9b4ab3;
 }
 
 .view-toggle {
@@ -30,8 +33,8 @@
 
 .view-button {
   padding: 8px 16px;
-  border: 1px solid #4a5568;
-  background-color: #4a5568;
+  border: 1px solid #b666d2;
+  background-color: #b666d2;
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -39,50 +42,49 @@
 }
 
 .view-button:hover {
-  background-color: #2d3748;
-  border-color: #2d3748;
+  background-color: #9b4ab3;
+  border-color: #9b4ab3;
 }
 
 .view-button.active {
-  background-color: #007bff !important;
+  background-color: #7d3790 !important;
   color: white !important;
-  border-color: #007bff !important;
+  border-color: #7d3790 !important;
 }
 
-/* Calendar Event Styling */
 .calendar-event {
-  background-color: #007bff !important;
+  background-color: #b666d2 !important;
   border-radius: 4px !important;
   color: white !important;
   padding: 2px 5px !important;
 }
 
-/* Calendar Header Styling */
 .rbc-header {
   padding: 10px !important;
   font-weight: bold !important;
-  background-color: #f8f9fa !important;
+  background-color: #f3e6f7 !important;
+  color: #9b4ab3 !important;
 }
 
-/* Today's Cell Styling */
 .rbc-today {
-  background-color: #f0f7ff !important;
+  background-color: #f9ebff !important;
 }
 
-/* Agenda View Styling */
 .rbc-agenda-view {
-  height: calc(100vh - 280px) !important; /* Adjusted for Nav bar and header */
+  height: calc(100vh - 280px) !important;
   overflow-y: auto !important;
+  background-color: #fff;
   color: #333;
 }
 
 .rbc-agenda-view table {
-  border: 1px solid #e0e0e0;
+  border: 1px solid #b666d2;
   border-radius: 4px;
 }
 
 .rbc-agenda-view table thead {
-  background-color: #f8f9fa;
+  background-color: #f3e6f7;
+  color: #9b4ab3;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -95,12 +97,12 @@
 
 .rbc-agenda-time-cell {
   font-size: 0.9em !important;
-  color: #333 !important;
+  color: #666 !important;
 }
 
 .rbc-agenda-date-cell {
   font-weight: bold !important;
-  color: #333 !important;
+  color: #9b4ab3 !important;
 }
 
 .rbc-agenda-event-cell {
@@ -112,40 +114,48 @@
   overflow-y: auto !important;
 }
 
-/* Toolbar Styling */
 .rbc-toolbar {
   margin-bottom: 20px !important;
   position: sticky;
   top: 0;
   z-index: 2;
-  background-color: white;
+  background-color: #f5e9fa;
+  color: #9b4ab3;
 }
 
 .rbc-toolbar button {
   padding: 8px 12px !important;
   border-radius: 4px !important;
-  background-color: white !important;
-  border: 1px solid #e0e0e0 !important;
+  background-color: #b666d2 !important;
+  border: 1px solid #b666d2 !important;
+  color: white !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rbc-toolbar button:hover {
+  background-color: #9b4ab3 !important;
+  border-color: #9b4ab3 !important;
 }
 
 .rbc-toolbar button.rbc-active {
-  background-color: #007bff !important;
+  background-color: #7d3790 !important;
   color: white !important;
-  border-color: #007bff !important;
+  border-color: #7d3790 !important;
 }
 
 @media (max-width: 768px) {
   .calendar-container {
-    margin-top: 60px; /* Slightly less margin on mobile */
+    margin-top: 60px;
     height: calc(100vh - 160px);
   }
-  
+
   .calendar-header {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
   }
-  
+
   .rbc-agenda-view {
     height: calc(100vh - 300px) !important;
   }

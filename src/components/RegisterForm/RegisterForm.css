@@ -5,29 +5,43 @@ form {
     width: 100%;
     margin: 20px;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #b666c4; /* Purple border */
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(215, 202, 202, 0.1);
+    background: linear-gradient(to bottom, #e9d3ef, #ffffff); /* Subtle purple gradient */
+    box-shadow: 0 0 10px rgba(182, 102, 196, 0.2); /* Purple shadow */
 }
+
 h2 {
     font-size: 24px;
     font-weight: bold;
+    color: #8917ac; /* Purple text for title */
 }
+
 span {
-    color: #007bff;
+    color: #b666c4; /* Lighter purple for highlight */
 }
 
 input {
- padding: 8px;
- color: #007bff;
- border: none;
- border-radius: 4px;
- width: 100%;
-
+    padding: 8px;
+    color: #8917ac; /* Purple text */
+    border: 1px solid #b666c4; /* Purple border */
+    border-radius: 4px;
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
 }
+
+input:focus {
+    border-color: #8917ac; /* Darker purple for focus */
+    box-shadow: 0 0 5px rgba(137, 23, 172, 0.5); /* Subtle glow effect */
+}
+
 .logo {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    margin-bottom: 20px;
+    border: 3px solid #b666c4; /* Add purple border around the logo */
+    box-shadow: 0 4px 8px rgba(137, 23, 172, 0.2); /* Light purple shadow */
 }
-

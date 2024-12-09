@@ -1,10 +1,11 @@
 p {
-    text-align: center;
+  text-align: center;
 }
+
 .login-page {
   margin-top: 0px;
-  background-image: linear-gradient(to bottom, #008346, #000783);
-  color: #fff;
+  background-image: linear-gradient(to bottom, #b666c4, #ffffff);
+  color: #333;
   border-radius: 10px;
   background-position: center;
   margin: 0 auto;
@@ -14,11 +15,11 @@ p {
   justify-content: center;
   height: 100vh;
   width: 100%;
-
 }
+
 h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   font-weight: bold;
-  color: blue;
+  color: #333;
 }

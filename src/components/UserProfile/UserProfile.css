@@ -1,117 +1,136 @@
 /* Global Styles */
 * {
-    box-sizing: border-box; /* Ensure padding and border are included in the element's width and height */
-  }
-  
-  /* Main Container */
+  box-sizing: border-box; /* Ensure padding and border are included in the element's width and height */
+}
+
+/* Main Container */
+.user-profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f5e9fa; /* Light purple background for the container */
+  border-radius: 10px;
+}
+
+/* Paper Styles */
+.user-profile-paper {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(137, 23, 172, 0.2); /* Subtle purple shadow */
+  border: 1px solid #b666d2; /* Purple border */
+  width: 100%; /* Ensure the box spans the container width */
+  align-items: flex-start;
+  background-color: #fff; /* Keep paper white for contrast */
+}
+
+/* Avatar and Upload Button Section */
+.avatar-container img {
+  width: 120px; /* Avatar size */
+  height: 120px;
+  border-radius: 50%; /* Make the image circular */
+  border: 3px solid #b666d2; /* Purple border around avatar */
+  box-shadow: 3px 3px 6px rgba(137, 23, 172, 0.2); /* Light purple shadow */
+}
+
+.upload-button {
+  font-size: 0.8rem; /* Smaller font size */
+  padding: 6px 12px; /* Adjust padding for the button size */
+  margin-top: 30px; /* Increase spacing between the avatar and button */
+  border-radius: 4px; /* Smaller rounded corners */
+  background-color: #b666d2; /* Purple button background */
+  color: white; /* White text */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+  background-color: #9b4ab3; /* Darker purple on hover */
+}
+
+/* Form Fields Section */
+.form-grid {
+  width: 100%; /* Ensure form fills the container */
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Add consistent spacing between fields */
+}
+
+.form-grid input,
+.form-grid textarea {
+  width: 100%; /* Full-width input fields */
+  padding: 10px;
+  border: 1px solid #b666d2; /* Purple border for inputs */
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #fdf9ff; /* Slightly tinted purple background */
+}
+
+.form-grid input:focus,
+.form-grid textarea:focus {
+  outline: none;
+  border-color: #9b4ab3; /* Darker purple border on focus */
+  box-shadow: 0 0 5px rgba(137, 23, 172, 0.4); /* Light purple glow */
+}
+
+/* Buttons Section */
+.form-buttons {
+  display: flex;
+  justify-content: space-between; /* Align buttons to the left and right */
+  margin-top: 20px; /* Add space above the buttons */
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px; /* Rounded button corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Save Button */
+button.save-button {
+  background-color: #9b4ab3; /* Dark purple */
+  color: white;
+  border: none;
+}
+
+button.save-button:hover {
+  background-color: #7d3790; /* Darker purple on hover */
+}
+
+/* Back Button */
+button.back-button {
+  background-color: transparent;
+  color: #b666d2; /* Purple text for Back */
+  border: 1px solid #b666d2; /* Purple border */
+}
+
+button.back-button:hover {
+  background-color: #f5e9fa; /* Light purple hover for Back */
+  color: #9b4ab3; /* Darker purple text */
+  border-color: #9b4ab3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .user-profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    max-width: 500px;
-    margin: 0 auto;
+    padding: 10px; /* Reduce padding for smaller screens */
   }
-  
-  /* Paper Styles */
-  .user-profile-paper {
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: none; /* Remove shadow */
-    border: 1px solid #ccc; /* Ensure a clear border */
-    width: 100%; /* Ensure the box spans the container width */
-    align-items:flex-start
-  }
-  
-  
-  /* Avatar and Upload Button Section */
-  .avatar-container img {
-    width: 120px; /* Avatar size */
-    height: 120px;
-    border-radius: 50%; /* Make the image circular */
-    border: 3px solid #ccc; /* Optional: border around avatar */
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1); /* Add light shadow */
-   
-  }
-  
-  
-  .upload-button {
-    font-size: 0.8rem; /* Smaller font size */
-    padding: 6px 12px; /* Adjust padding for the button size */
-    margin-top: 30px; /* Increase spacing between the avatar and button */
-    border-radius: 4px; /* Smaller rounded corners */
-  }
-  
-  
-  /* Form Fields Section */
+
   .form-grid {
-    width: 100%; /* Ensure form fills the container */
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* Add consistent spacing between fields */
+    gap: 12px; /* Reduce spacing between fields */
   }
-  
-  .form-grid input,
-  .form-grid textarea {
-    width: 100%; /* Full-width input fields */
-    padding: 10px;
-    border: 1px solid #ccc; /* Border for inputs */
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  /* Buttons Section */
+
   .form-buttons {
-    display: flex;
-    justify-content: space-between; /* Align buttons to the left and right */
-    margin-top: 20px; /* Add space above the buttons */
+    flex-direction: column; /* Stack buttons vertically on small screens */
+    gap: 10px; /* Add space between stacked buttons */
   }
-  
+
   button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px; /* Rounded button corners */
-    cursor: pointer;
+    width: 100%; /* Full-width buttons on small screens */
   }
-  
-  button.save-button {
-    background-color: #1976D2; /* Material UI primary blue */
-    color: white;
-  }
-  
-  button.save-button:hover {
-    background-color: #1565C0; /* Slightly darker blue for hover */
-  }
-  
-  
-  button.back-button {
-    background-color: transparent;
-    color: grey;
-    border: 1px solid grey;
-  }
-  
-  button.back-button:hover {
-    background-color: #f1f1f1; /* Light gray hover for Back */
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .user-profile-container {
-      padding: 10px; /* Reduce padding for smaller screens */
-    }
-  
-    .form-grid {
-      gap: 12px; /* Reduce spacing between fields */
-    }
-  
-    .form-buttons {
-      flex-direction: column; /* Stack buttons vertically on small screens */
-      gap: 10px; /* Add space between stacked buttons */
-    }
-  
-    button {
-      width: 100%; /* Full-width buttons on small screens */
-    }
-  }
-  
-  
+}

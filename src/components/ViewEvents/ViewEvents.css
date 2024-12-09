@@ -1,28 +1,84 @@
+/* View Events Container */
 .view-events {
     padding: 20px;
     margin: 40px;
-}
+    background-color: #f5e9fa; /* Light purple background */
+    border-radius: 10px; /* Rounded corners for container */
+    box-shadow: 0 4px 8px rgba(137, 23, 172, 0.2); /* Subtle purple shadow */
+  }
 
-.view-events-buttons {
+  /* Buttons Section */
+  .view-events-buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+    margin-bottom: 20px;
+  }
 
-.view-events-title {
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Primary Button */
+  button.primary-button {
+    background-color: #9b4ab3; /* Deep purple */
+    color: white;
+    border: none;
+  }
+
+  button.primary-button:hover {
+    background-color: #7d3790; /* Darker purple on hover */
+  }
+
+  /* Secondary Button */
+  button.secondary-button {
+    background-color: transparent;
+    color: #b666d2; /* Purple text */
+    border: 1px solid #b666d2; /* Purple border */
+  }
+
+  button.secondary-button:hover {
+    background-color: #f5e9fa; /* Light purple background on hover */
+    color: #9b4ab3; /* Darker purple text */
+    border-color: #9b4ab3;
+  }
+
+  /* Title */
+  .view-events-title {
     margin-top: 60px;
     font-size: 24px;
     font-weight: bold;
-}
+    color: #9b4ab3; /* Purple text */
+    text-align: center;
+  }
 
-.view-events-list {
+  /* Event List */
+  .view-events-list {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}   
-.view-events-list-item {
-    border: 1px solid #000;
+    gap: 10px; /* Add consistent spacing between list items */
+  }
+
+  /* List Item */
+  .view-events-list-item {
+    border: 1px solid #b666d2; /* Purple border */
     padding: 10px;
     margin: 10px;
-}
+    width: 100%; /* Full width of container */
+    max-width: 500px; /* Restrict maximum width */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #fff; /* White background for contrast */
+    box-shadow: 0 2px 5px rgba(137, 23, 172, 0.2); /* Subtle purple shadow */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .view-events-list-item:hover {
+    background-color: #f5e9fa; /* Light purple hover */
+    border-color: #9b4ab3; /* Darker purple border */
+  }
