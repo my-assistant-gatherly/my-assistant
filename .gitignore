@@ -66,3 +66,8 @@ typings/
 
 # ignore package-lock as it complicates merging
 package-lock.json
+
+VITE_CLOUDINARY_CLOUD_NAME=dfxnxvcee
+VITE_CLOUDINARY_API_KEY=754936456563162
+VITE_CLOUDINARY_API_SECRET=VA-93Q1fxY5usWL8QKBtK7KMO-Q
+VITE_CLOUDINARY_UPLOAD_PRESET=my_app_preset
