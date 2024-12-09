@@ -88,7 +88,7 @@ function ViewEvents() {
    */
   const fetchEvents = async () => {
     if (!user?.id) return;
-    
+
     try {
       setLoading(true);
       const response = await axios.get(`/api/events/${user.id}`);
@@ -135,7 +135,7 @@ function ViewEvents() {
 
   const getFilteredEvents = () => {
     let filteredEvents = events;
-    
+
     // Apply filter
     switch (filter) {
       case 'my-events':
@@ -148,7 +148,7 @@ function ViewEvents() {
       default:
         filteredEvents = filteredEvents.filter(event => event.is_public || event.owner_id === user.id);
     }
-    
+
     // Apply search
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
@@ -159,7 +159,7 @@ function ViewEvents() {
         event.creator?.fullname?.toLowerCase().includes(query)
       );
     }
-    
+
     return filteredEvents;
   };
 
@@ -171,7 +171,7 @@ function ViewEvents() {
           Events
         </Typography>
       </Paper>
-      
+
       {/* Controls section: Filter and action buttons */}
       <Box sx={{ display: 'flex', gap: 2, mb: 4, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
         {/* Filter dropdown */}
@@ -199,16 +199,16 @@ function ViewEvents() {
             <MenuItem value="invite-only">Invite-Only</MenuItem>
           </Select>
         </FormControl>
-        
+
         {/* Action buttons */}
         <Box sx={{ display: 'flex', gap: 2 }}>
           {/* Search input with icon */}
-          <Box sx={{ 
+          <Box sx={{
             position: 'relative',
             display: 'flex',
             alignItems: 'center'
           }}>
-            <Search sx={{ 
+            <Search sx={{
               position: 'absolute',
               left: '10px',
               color: 'action.active',
@@ -271,11 +271,11 @@ function ViewEvents() {
           {getFilteredEvents().map((event) => (
             <Grid item xs={12} sm={6} md={4} key={event.id}>
               {/* Event card with hover animation */}
-              <Card 
+              <Card
                 onClick={() => history.push(`/event/${event.id}`)}
-                sx={{ 
-                  height: '100%', 
-                  display: 'flex', 
+                sx={{
+                  height: '100%',
+                  display: 'flex',
                   flexDirection: 'column',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
@@ -315,18 +315,18 @@ function ViewEvents() {
 
                 <CardContent sx={{ flexGrow: 1, p: 3 }}>
                   {/* Event Title and Status */}
-                  <Box sx={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    alignItems: 'center', 
+                  <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                     mb: 2,
                     pb: 2,
                     borderBottom: '1px solid rgba(0,0,0,0.06)'
                   }}>
-                    <Typography 
-                      variant="h6" 
-                      component="h2" 
-                      sx={{ 
+                    <Typography
+                      variant="h6"
+                      component="h2"
+                      sx={{
                         fontWeight: 'bold',
                         color: '#2C3E50',
                         fontSize: '1.25rem',
@@ -341,17 +341,17 @@ function ViewEvents() {
 
                   {/* Creator information with enhanced styling */}
                   {event.creator && (
-                    <Box sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
+                    <Box sx={{
+                      display: 'flex',
+                      alignItems: 'center',
                       mb: 2,
                       pb: 2,
                       borderBottom: '1px solid rgba(0,0,0,0.06)',
                       color: '#666'
                     }}>
-                      <Typography 
-                        variant="body2" 
-                        sx={{ 
+                      <Typography
+                        variant="body2"
+                        sx={{
                           fontStyle: 'italic',
                           display: 'flex',
                           alignItems: 'center',
@@ -368,18 +368,18 @@ function ViewEvents() {
                   {/* Event Details with enhanced styling */}
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     {/* Description */}
-                    <Box sx={{ 
-                      display: 'flex', 
-                      alignItems: 'start', 
+                    <Box sx={{
+                      display: 'flex',
+                      alignItems: 'start',
                       gap: 1,
                       backgroundColor: 'rgba(0,0,0,0.02)',
                       padding: 1.5,
                       borderRadius: 1
                     }}>
                       <Description sx={{ color: '#666', mt: 0.5 }} />
-                      <Typography 
-                        variant="body2" 
-                        sx={{ 
+                      <Typography
+                        variant="body2"
+                        sx={{
                           color: '#666',
                           lineHeight: 1.6,
                           display: '-webkit-box',
@@ -391,11 +391,11 @@ function ViewEvents() {
                         {event.description || 'No description available'}
                       </Typography>
                     </Box>
-                    
+
                     {/* Date and Location with subtle backgrounds */}
-                    <Box sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
+                    <Box sx={{
+                      display: 'flex',
+                      alignItems: 'center',
                       gap: 1,
                       backgroundColor: 'rgba(0,0,0,0.02)',
                       padding: 1,
@@ -407,9 +407,9 @@ function ViewEvents() {
                       </Typography>
                     </Box>
 
-                    <Box sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
+                    <Box sx={{
+                      display: 'flex',
+                      alignItems: 'center',
                       gap: 1,
                       backgroundColor: 'rgba(0,0,0,0.02)',
                       padding: 1,
@@ -424,8 +424,8 @@ function ViewEvents() {
                 </CardContent>
 
                 {/* Enhanced Card Actions */}
-                <CardActions sx={{ 
-                  p: 2, 
+                <CardActions sx={{
+                  p: 2,
                   pt: 0,
                   borderTop: '1px solid rgba(0,0,0,0.06)',
                   justifyContent: 'flex-end'
