@@ -4,6 +4,9 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import './CreateEvents.css';
 import { Container, Typography, Paper } from '@mui/material';
+import { IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 function CreateEventsPage() {
   const history = useHistory();
@@ -255,24 +258,26 @@ function CreateEventsPage() {
               onChange={handleSearchChange}
             />
             {userSuggestions.length > 0 && (
-              <ul>
-                {userSuggestions.map((user) => (
-                  <li key={user.id} onClick={() => handleSelectUser(user)}>
-                    {user.fullname}
-                  </li>
-                ))}
-              </ul>
-            )}
+  <ul>
+    {userSuggestions.map((user) => (
+      <li key={user.id} onClick={() => handleSelectUser(user)}>
+        {user.fullname}
+      </li>
+    ))}
+  </ul>
+)}
+
             <div>
               {eventData.invitedUsers.map((user) => (
-                <div key={user.id}>
-                  {user.fullname}
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveUser(user.id)}
-                  >
-                    Remove
-                  </button>
+                <div key={user.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {user.fullname}
+                <IconButton
+                  size="small"
+                  color="error"
+                  onClick={() => handleRemoveUser(user.id)}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
                 </div>
               ))}
             </div>
