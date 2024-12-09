@@ -119,13 +119,6 @@ export default function BigCalendar() {
             Week
           </button>
 
-          <button 
-            className={`view-button ${view === 'agenda' ? 'active' : ''}`}
-            onClick={() => setView('agenda')}
-          >
-            Agenda
-          </button>
-
         </div>
       </div>
 
@@ -135,7 +128,7 @@ export default function BigCalendar() {
         defaultDate={new Date()}
         view={view}
         onView={setView}
-        views={['month', 'day', 'week', 'agenda']}
+        views={['month', 'day', 'week']}
         style={customStyles
          }
         toolbar={true}
@@ -145,9 +138,9 @@ export default function BigCalendar() {
         formats={formats}
         popup
         selectable
-        // eventPropGetter={(event) => ({
-        //   className: 'calendar-event',
-        // })}
+        eventPropGetter={(event) => ({
+          className: 'calendar-event',
+        })}
         //style={{ height: 500, width: 700 }}
       />
     </div>
