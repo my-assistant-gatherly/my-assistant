@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -12,6 +12,7 @@ function Nav() {
   const [selectedEvent, setSelectedEvent] = useState('Events');
   const open = Boolean(anchorEl);
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     handleClose();
@@ -73,7 +74,13 @@ function Nav() {
                 Events
               </Link>
 
-              <LogOutButton className="navLink"/>
+              {/* <LogOutButton className="navLink"/> */}
+
+              <Link
+              className="navLink"
+              onClick={() => dispatch({ type: 'LOGOUT' })}>
+              Logout
+              </Link>
 
             </>
           )}
