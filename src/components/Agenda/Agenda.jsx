@@ -55,7 +55,7 @@ export default function BigCalendar() {
   const customStyles = {
     height: '100%',
     backgroundColor: '#ffffff',
-    borderRadius: '10px',
+   borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
   
   };
@@ -81,7 +81,7 @@ export default function BigCalendar() {
     };
 
     return (
-      <div className="rbc-toolbar">
+      <div align="center">
         {/* <span className="rbc-btn-group">
           <button type="button" onClick={goToBack}>&lt;</button>
           <button type="button" onClick={goToCurrent}>Today</button>
@@ -94,7 +94,7 @@ export default function BigCalendar() {
   }
 
   return (
-    <div className="calendar-container">
+    <div>
       {/* <div className="calendar-header"> */}
         
         {/* <div className="view-toggle">
@@ -136,8 +136,8 @@ export default function BigCalendar() {
         view={view}
         onView={setView}
         views={['agenda']}
-        style={{customStyles}, {height: 500,
-                width: 500}}
+        style={ {height: 500,
+                width: 470}}
         toolbar={true}
         components={{
          toolbar: CustomToolbar
