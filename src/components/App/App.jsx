@@ -7,6 +7,7 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
+import HomePage from '../HomePage/HomePage';
 import UserProfile from '../UserProfile/UserProfile';
 import CreateEventsPage from '../CreateEvents/CreateEvents';
 import ViewEvents from '../ViewEvents/ViewEvents';
@@ -42,6 +43,10 @@ function App() {
           <Route exact path="/about">
             <AboutPage />
           </Route>
+
+          <ProtectedRoute exact path="/user">
+            <HomePage />
+          </ProtectedRoute>
 
 
           <ProtectedRoute exact path="/create-events">
