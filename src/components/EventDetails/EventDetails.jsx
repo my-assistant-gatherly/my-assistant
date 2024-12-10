@@ -145,6 +145,14 @@ function EventDetails() {
     }
   };
 
+  const formatTime = (time) => {
+    const [hours, minutes] = time.split(':');
+    const parsedHours = parseInt(hours, 10);
+    const ampm = parsedHours >= 12 ? 'PM' : 'AM';
+    const formattedHours = parsedHours % 12 || 12;
+    return `${formattedHours}:${minutes} ${ampm}`;
+  };
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
@@ -367,7 +375,7 @@ function EventDetails() {
                         />
                       ) : (
                         <Typography variant="body1" sx={{ color: '#2C3E50', fontWeight: 'medium' }}>
-                          {event.start_time}
+                          {formatTime(event.start_time)}
                         </Typography>
                       )}
                     </Box>
@@ -388,7 +396,7 @@ function EventDetails() {
                           />
                         ) : (
                           <Typography variant="body1" sx={{ color: '#2C3E50', fontWeight: 'medium' }}>
-                            {event.end_time}
+                            {formatTime(event.end_time)}
                           </Typography>
                         )}
                       </Box>
